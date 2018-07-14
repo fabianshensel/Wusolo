@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@mipmap/baseline_settings_black_48dp"
+        android:title="@string/settings" />
+    <item android:id="@+id/nav_lastgame"
+        android:title="@string/last_game"/>
+    <item
+        android:id="@+id/nav_profiles"
+        android:icon="@mipmap/baseline_account_box_black_48dp"
+        android:title="@string/profiles" />
+    <item
+        android:id="@+id/nav_about_us"
+        android:onClick="onMenuItemSelected"
+        android:title="@string/about_us" />
+    <item android:id="@+id/nav_tops_flops"
+        android:title="@string/tops_flops"/>
+    <item android:id="@+id/nav_games_history"
+        android:title="@string/games_history"
+        android:icon="@mipmap/baseline_list_black_48dp"/>
+
+</menu>
