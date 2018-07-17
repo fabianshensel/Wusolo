@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".MenuActivity" />
         <activity android:name=".AboutUsActivity" />
-        <activity android:name=".PlayerProfilActivity"></activity>
+        <activity android:name=".PlayerProfilActivity" />
+        <activity android:name=".PlayerListActivity"></activity>
     </application>
 
 </manifest>
