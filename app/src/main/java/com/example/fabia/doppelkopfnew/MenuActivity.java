@@ -59,7 +59,8 @@ public class MenuActivity extends AppCompatActivity {
                 aboutUsActivity.getMeOut();
                 return true;
             case R.id.nav_profiles:
-
+                Intent myIntent = new Intent(MenuActivity.this,PlayerProfilActivity.class);
+                startActivity(myIntent);
 
                 return true;
             default:

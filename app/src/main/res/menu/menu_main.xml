@@ -13,6 +13,7 @@
     <item
         android:id="@+id/nav_profiles"
         android:icon="@mipmap/baseline_account_box_black_48dp"
+        android:onClick="onMenuItemSelected"
         android:title="@string/profiles" />
     <item
         android:id="@+id/nav_about_us"

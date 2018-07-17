@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Man muss noch fuer einzelne MenuItems das OnClick event in der Ressource festlegen
     public boolean onMenuItemSelected(MenuItem item){
 
         switch (item.getItemId()) {
@@ -73,7 +74,11 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 aboutUsActivity.getMeOut();
                 return true;
+
             case R.id.nav_profiles:
+
+                Intent myIntent = new Intent(MainActivity.this,PlayerProfilActivity.class);
+                startActivity(myIntent);
 
                 return true;
             default:

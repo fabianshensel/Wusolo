@@ -1,15 +1,18 @@
 <resources>
     <string name="app_name">Doppelkopf</string>
     <string name="open">Open</string>
-        <string name="close">Close</string>
-        <string name="layout_description_1">Main Layout</string>
-        <string name="navigation_header">Menü</string>
-        <string name="hello_world">Hallo Welt!</string>
-        <string name="profiles">Profile</string>
-        <string name="last_game">Letztes Spiel</string>
-        <string name="settings">Einstellungen</string>
-        <string name="about_us">Über uns</string>
-        <string name="tops_flops">Tops und Flops</string>
-        <string name="games_history">Letzten Spiele</string>
+    <string name="close">Close</string>
+    <string name="layout_description_1">Main Layout</string>
+    <string name="navigation_header">Menü</string>
+    <string name="hello_world">Hallo Welt!</string>
+    <string name="profiles">Profile</string>
+    <string name="last_game">Letztes Spiel</string>
+    <string name="settings">Einstellungen</string>
+    <string name="about_us">Über uns</string>
+    <string name="tops_flops">Tops und Flops</string>
+    <string name="games_history">Letzten Spiele</string>
+    <string name="Spielerstatistik">Spielerstatistik</string>
+    <string name="wins">Wins</string>
+    <string name="loss">Loses</string>
 
 </resources>
