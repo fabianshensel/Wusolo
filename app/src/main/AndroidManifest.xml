@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fabia.doppelkopfnew">
 
-    <uses-sdk android:minSdkVersion="23"/>
+    <uses-sdk android:minSdkVersion="23" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +26,7 @@
         <activity android:name=".AboutUsActivity" />
         <activity android:name=".PlayerProfilActivity" />
         <activity android:name=".PlayerListActivity" />
+        <activity android:name=".AddPlayerActivity"></activity>
     </application>
 
 </manifest>

@@ -75,7 +75,6 @@ public class PlayerController {
 
         if (!dir.exists()) {
             dir.mkdirs();
-            fillList();
             return;
         }
 
@@ -84,7 +83,7 @@ public class PlayerController {
         String input = "";
 
         try{
-            File myFile = new File(c.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)+"/myFiles/Players.txt");
+            File myFile = new File(c.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)+ fileName);
 
             FileInputStream fin = new FileInputStream(myFile);
             BufferedReader myReader = new BufferedReader(new InputStreamReader(fin, StandardCharsets.UTF_8.name()));

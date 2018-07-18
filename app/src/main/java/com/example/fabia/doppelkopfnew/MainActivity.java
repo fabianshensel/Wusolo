@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
                 //Liste mit Spielern an Fragment uebergeben
                 pFrag.setContext(this);
-                pFrag.setPlayerList(playerController.getPlayerList());
+                pFrag.setPlayerController(playerController);
+                playerController.writeToJSON(this);
                 break;
 
             case R.id.nav_lastgame:
