@@ -1,14 +1,18 @@
 package com.example.fabia.doppelkopfnew;
 
-import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
+import com.example.fabia.doppelkopfnew.myFragments.AboutUsFragment;
+import com.example.fabia.doppelkopfnew.myFragments.GameListFragment;
+import com.example.fabia.doppelkopfnew.myFragments.LastGameFragment;
+import com.example.fabia.doppelkopfnew.myFragments.PlayersFragment;
+import com.example.fabia.doppelkopfnew.myFragments.SettingsFragment;
+import com.example.fabia.doppelkopfnew.myFragments.TopsAndFlopsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.nav_action);
         setSupportActionBar(mToolbar);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.myDrawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.myNewMainDrawer);
         mToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
@@ -32,24 +36,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-    }
-
-    public void startAktivityMain(View v) {
-        startActivity(new Intent(MainActivity.this,MenuActivity.class));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-
-
-
-    public void onClickButton(MenuItem item){
-        System.out.println("Okay");
     }
 
     @Override
@@ -67,22 +53,34 @@ public class MainActivity extends AppCompatActivity {
     public boolean onMenuItemSelected(MenuItem item){
 
         switch (item.getItemId()) {
-            case R.id.nav_about_us:
-                AboutUsActivity aboutUsActivity = new AboutUsActivity();
-                finish();
-                startActivity(new Intent(MainActivity.this,AboutUsActivity.class));
-                finish();
-                aboutUsActivity.getMeOut();
-                return true;
+            case R.id.nav_tops_flops:
+                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new TopsAndFlopsFragment()).commit();
+                mDrawerLayout.closeDrawers();
+                break;
 
             case R.id.nav_profiles:
-
-                Intent myIntent = new Intent(MainActivity.this,PlayerListActivity.class);
-                startActivity(myIntent);
-
-                return true;
+                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new PlayersFragment()).commit();
+                mDrawerLayout.closeDrawers();
+                break;
+            case R.id.nav_lastgame:
+                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new LastGameFragment()).commit();
+                mDrawerLayout.closeDrawers();
+                break;
+            case R.id.nav_games_history:
+                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new GameListFragment()).commit();
+                mDrawerLayout.closeDrawers();
+                break;
+            case R.id.nav_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new SettingsFragment()).commit();
+                mDrawerLayout.closeDrawers();
+                break;
+            case R.id.nav_about_us:
+                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new AboutUsFragment()).commit();
+                mDrawerLayout.closeDrawers();
+                break;
             default:
                 return true;
         }
+        return true;
     }
 }

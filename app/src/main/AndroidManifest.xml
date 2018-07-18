@@ -19,7 +19,7 @@
         <activity android:name=".MenuActivity" />
         <activity android:name=".AboutUsActivity" />
         <activity android:name=".PlayerProfilActivity" />
-        <activity android:name=".PlayerListActivity"></activity>
+        <activity android:name=".PlayerListActivity" />
     </application>
 
 </manifest>

@@ -14,51 +14,19 @@ public class PlayerListActivity extends AppCompatActivity {
 
     ArrayList<Player> playerList = new ArrayList<>();
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
-    private Toolbar mToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_list);
 
-        //DrawerMenuLayout einrichten
-        mToolbar = findViewById(R.id.nav_action);
-        setSupportActionBar(mToolbar);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.myPlayerDrawer);
-        mToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
 
         fillList();
 
-
     }
 
-    //Menu einrichten
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_playerlist, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        if(mToggle.onOptionsItemSelected(item)){
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-
-    }
 
     private void fillList(){
         playerList.add(new Player("Fabian Hensel","Ich spiele super gerne Doppelkopf",null,new PlayerStats(1,99)));
