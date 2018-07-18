@@ -41,10 +41,13 @@ public class PlayersFragment extends Fragment {
             b.setId(i);
             b.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             b.setStateListAnimator(null);
-            b.setBackgroundColor(Color.WHITE);
+            b.setBackgroundColor(Color.GREEN);
             b.setTextSize(30);
             b.setAllCaps(false);
-            b.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
+            params.setMargins(10,10,10,10);
+            b.setLayoutParams(params);
+
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -62,6 +65,7 @@ public class PlayersFragment extends Fragment {
         super.onStart();
         linLayout.removeAllViews();
         displayPlayer();
+
     }
 
 

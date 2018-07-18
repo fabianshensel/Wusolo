@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         playerController = new PlayerController(new ArrayList<Player>());
         //nur platzhalter später mit einlesen von json oder so
-        playerController.fillList();
+        playerController.readFromJSON(this);
+
 
 
     }
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 //Liste mit Spielern an Fragment uebergeben
                 pFrag.setContext(this);
                 pFrag.setPlayerList(playerController.getPlayerList());
+                //JSON
+                playerController.writeToJSON(this);
                 break;
             case R.id.nav_lastgame:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new LastGameFragment()).commit();

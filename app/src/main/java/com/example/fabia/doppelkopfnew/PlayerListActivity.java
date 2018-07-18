@@ -27,7 +27,6 @@ public class PlayerListActivity extends AppCompatActivity {
     }
 
 
-
     private void fillList(){
         playerList.add(new Player("Fabian Hensel","Ich spiele super gerne Doppelkopf",null,new PlayerStats(1,99)));
         playerList.add(new Player("Torben Glass","Halt dein Maul",null,new PlayerStats(99,1)));
