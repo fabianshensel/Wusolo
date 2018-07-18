@@ -34,8 +34,12 @@ public class PlayersFragment extends Fragment {
         this.playerList = pList;
     }
 
+    /*
+    Erstellt für Player aus playerList jeweils einen Button welcher zur ProfilActivity verlinkt
+     */
     private void displayPlayer(){
         for(int i = 0; i < playerList.size();i++) {
+            //fanzy shit damit der button ein wenig netter aussieht
             final Button b = new Button(c);
             b.setText("     " + playerList.get(i).getName());
             b.setId(i);
@@ -47,7 +51,7 @@ public class PlayersFragment extends Fragment {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
             params.setMargins(10,10,10,10);
             b.setLayoutParams(params);
-
+            //OnClick configurieren, sodass die ProfilActivity die richtigen Daten uebergeben bekommt
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

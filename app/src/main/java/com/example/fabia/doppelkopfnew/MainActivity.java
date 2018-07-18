@@ -28,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        configureMenu();
+
+        //Player Controller erstellen und wenn vorhanden Daten aus Datei einlesen
+        //Wenn keine Datei vorhanden wird ein bsp Datensatz erstellt
+        playerController = new PlayerController(new ArrayList<Player>());
+        playerController.readFromJSON(this);
+
+
+
+    }
+
+    private void configureMenu(){
         mToolbar = findViewById(R.id.nav_action);
         setSupportActionBar(mToolbar);
 
@@ -37,13 +49,6 @@ public class MainActivity extends AppCompatActivity {
         mToggle.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        playerController = new PlayerController(new ArrayList<Player>());
-        //nur platzhalter später mit einlesen von json oder so
-        playerController.readFromJSON(this);
-
-
-
     }
 
     @Override
@@ -67,27 +72,31 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_profiles:
+                //Fragment init und per Manager laden
                 PlayersFragment pFrag = new PlayersFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,pFrag).commit();
+                //Damit es schön aussieht den MenuDrawer schließen
                 mDrawerLayout.closeDrawers();
                 //Liste mit Spielern an Fragment uebergeben
                 pFrag.setContext(this);
                 pFrag.setPlayerList(playerController.getPlayerList());
-                //JSON
-                playerController.writeToJSON(this);
                 break;
+
             case R.id.nav_lastgame:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new LastGameFragment()).commit();
                 mDrawerLayout.closeDrawers();
                 break;
+
             case R.id.nav_games_history:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new GameListFragment()).commit();
                 mDrawerLayout.closeDrawers();
                 break;
+
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new SettingsFragment()).commit();
                 mDrawerLayout.closeDrawers();
                 break;
+
             case R.id.nav_about_us:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new AboutUsFragment()).commit();
                 mDrawerLayout.closeDrawers();

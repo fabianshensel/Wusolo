@@ -31,6 +31,9 @@ public class PlayerController {
         this.playerList = playerList;
     }
 
+    /*
+    schreibt momentanen Inhalt von playerList in Players.txt
+     */
     public void writeToJSON(Context c){
         try{
             //Directory erstellen
@@ -64,6 +67,9 @@ public class PlayerController {
         }
     }
 
+    /*
+    ließt von der JSONDatei nach playerList die Spieler ein wenn keine File vorhanden wird fillList() aufgerufen
+     */
     public void readFromJSON(Context c){
         File dir = new File(c.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),"myFiles");
 
@@ -109,6 +115,9 @@ public class PlayerController {
         }
     }
 
+    /*
+    Liste mit DefaultWerten befuellen um ein wenig testen zu koennen
+     */
     public void fillList(){
         playerList.add(new Player("Fabian Hensel","Ich spiele super gerne Doppelkopf",null,new PlayerStats(1,99)));
         playerList.add(new Player("Torben Glass","Halt dein Maul",null,new PlayerStats(99,1)));
