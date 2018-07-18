@@ -14,5 +14,6 @@
     <string name="Spielerstatistik">Spielerstatistik</string>
     <string name="wins">Wins</string>
     <string name="loss">Loses</string>
+    <string name="profile">Profile</string>
 
 </resources>

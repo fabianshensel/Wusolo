@@ -1,8 +1,10 @@
 package com.example.fabia.doppelkopfnew;
 
 import android.media.Image;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Player {
+public class Player implements Parcelable {
     private String name;
     private String comment;
     private Image image;
@@ -14,6 +16,54 @@ public class Player {
         this.image = image;
         this.stats = stats;
     }
+
+    /*
+        PARCEABLE IMPLEMENTATION
+     */
+
+    public Player(Parcel in){
+        String[] data = new String[4];
+        in.readStringArray(data);
+        this.name = data[0];
+        this.comment = data[1];
+        this.stats = new PlayerStats(Integer.valueOf(data[2]),Integer.valueOf(data[3]));
+        //noch kein plan wie das laufen soll
+        this.image = null;
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        @Override
+        public Player createFromParcel(Parcel in) {
+            return new Player(in);
+        }
+
+        @Override
+        public Player[] newArray(int size) {
+            return new Player[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest,int flags){
+        String s[] = new String[]
+                {
+                        this.name,
+                        this.comment,
+                        String.valueOf(this.stats.getWinCount()),
+                        String.valueOf(this.stats.getLossCount())
+                };
+        dest.writeStringArray(s);
+    }
+
+    @Override
+    public int describeContents(){
+        return 0;
+    }
+     /*
+        PARCEABLE IMPLEMENTATION ENDE
+     */
+
+    //Getter und Setter
 
     public String getName() {
         return name;

@@ -11,8 +11,8 @@ public class PlayerProfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_profil);
 
-        //Dummy Player to Display
-        Player toDisplay = new Player("Max Mustermann","Hier ist ein Beispiel Text für das Kommentarfeld",null,new PlayerStats(40,30));
+        //get Player from Intent
+        Player toDisplay = (Player) getIntent().getParcelableExtra("player");
 
         //Get Views
         TextView nameTV = (TextView)findViewById(R.id.profilPlayerNameTextView);

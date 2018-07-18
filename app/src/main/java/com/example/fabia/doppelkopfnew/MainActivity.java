@@ -14,11 +14,14 @@ import com.example.fabia.doppelkopfnew.myFragments.PlayersFragment;
 import com.example.fabia.doppelkopfnew.myFragments.SettingsFragment;
 import com.example.fabia.doppelkopfnew.myFragments.TopsAndFlopsFragment;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
+    private PlayerController playerController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         mToggle.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        playerController = new PlayerController(new ArrayList<Player>());
+        //nur platzhalter später mit einlesen von json oder so
+        playerController.fillList();
 
 
     }
@@ -59,8 +66,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_profiles:
-                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new PlayersFragment()).commit();
+                PlayersFragment pFrag = new PlayersFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,pFrag).commit();
                 mDrawerLayout.closeDrawers();
+                //Liste mit Spielern an Fragment uebergeben
+                pFrag.setContext(this);
+                pFrag.setPlayerList(playerController.getPlayerList());
                 break;
             case R.id.nav_lastgame:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new LastGameFragment()).commit();
@@ -78,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new AboutUsFragment()).commit();
                 mDrawerLayout.closeDrawers();
                 break;
-            default:
-                return true;
         }
         return true;
     }
