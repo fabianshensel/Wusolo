@@ -54,7 +54,7 @@ public class PlayersFragment extends Fragment {
             b.setId(i);
             b.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             b.setStateListAnimator(null);
-            b.setBackgroundColor(Color.parseColor("#dcdef7"));
+            b.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             b.setTextSize(30);
             b.setAllCaps(false);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
@@ -78,7 +78,7 @@ public class PlayersFragment extends Fragment {
                     //Abfrage on wirklich gelöscht werden soll
                     AlertDialog.Builder dialog = new AlertDialog.Builder(c);
                     dialog.setTitle("Spieler entfernen");
-                    dialog.setMessage("Möchten sie den Spieler entfernen?");
+                    dialog.setMessage("Möchten sie "+ pControl.getPlayerList().get(b.getId()).getName() + " entfernen?");
                     //Wenn gelöscht werden soll dann Spieler aus Liste entfernen,JSON updaten,ListView Updaten
                     dialog.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                         @Override
