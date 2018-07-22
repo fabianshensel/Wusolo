@@ -77,10 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,pFrag).commit();
                 //Damit es schön aussieht den MenuDrawer schließen
                 mDrawerLayout.closeDrawers();
-                //Liste mit Spielern an Fragment uebergeben
                 pFrag.setContext(this);
-                pFrag.setPlayerController(playerController);
-                playerController.writeToJSON(this);
                 break;
 
             case R.id.nav_lastgame:

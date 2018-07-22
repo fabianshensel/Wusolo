@@ -9,12 +9,15 @@ public class Player implements Parcelable {
     private String comment;
     private Image image;
     private PlayerStats stats;
+    private String imagepath;
 
-    public Player(String name, String comment, Image image, PlayerStats stats) {
+
+    public Player(String name, String comment, Image image, PlayerStats stats, String imagepath) {
         this.name = name;
         this.comment = comment;
         this.image = image;
         this.stats = stats;
+        this.imagepath = imagepath;
     }
 
     /*
@@ -22,11 +25,12 @@ public class Player implements Parcelable {
      */
 
     public Player(Parcel in){
-        String[] data = new String[4];
+        String[] data = new String[5];
         in.readStringArray(data);
         this.name = data[0];
         this.comment = data[1];
-        this.stats = new PlayerStats(Integer.valueOf(data[2]),Integer.valueOf(data[3]));
+        this.imagepath = data[2];
+        this.stats = new PlayerStats(Integer.valueOf(data[3]),Integer.valueOf(data[4]));
         //noch kein plan wie das laufen soll
         this.image = null;
     }
@@ -49,6 +53,7 @@ public class Player implements Parcelable {
                 {
                         this.name,
                         this.comment,
+                        this.imagepath,
                         String.valueOf(this.stats.getWinCount()),
                         String.valueOf(this.stats.getLossCount())
                 };
@@ -64,6 +69,13 @@ public class Player implements Parcelable {
      */
 
     //Getter und Setter
+    public String getImagepath() {
+        return imagepath;
+    }
+
+    public void setImagepath(String imagepath) {
+        this.imagepath = imagepath;
+    }
 
     public String getName() {
         return name;

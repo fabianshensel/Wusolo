@@ -27,6 +27,7 @@ import com.example.fabia.doppelkopfnew.PlayerProfilActivity;
 import com.example.fabia.doppelkopfnew.PlayerStats;
 import com.example.fabia.doppelkopfnew.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class PlayersFragment extends Fragment {
@@ -35,19 +36,19 @@ public class PlayersFragment extends Fragment {
     private PlayerController pControl;
     private Context c;
 
+    private int NEW_PLAYER_ADDED = 1;
+
     public void setContext(Context c){
         this.c = c;
     }
 
-    public void setPlayerController(PlayerController playerController){
-        this.pControl = playerController;
-    }
 
     /*
     Erstellt für Player aus playerList jeweils einen Button welcher zur ProfilActivity verlinkt
      */
     private void displayPlayer(){
         for(int i = 0; i < pControl.getPlayerList().size();i++) {
+
             //fanzy shit damit der button ein wenig netter aussieht
             final Button b = new Button(c);
             b.setText("     " + pControl.getPlayerList().get(i).getName());
@@ -61,6 +62,8 @@ public class PlayersFragment extends Fragment {
             params.setMargins(10,10,10,10);
             b.setGravity(Gravity.LEFT);
             b.setLayoutParams(params);
+            //fanzy shit damit der button ein wenig netter aussieht
+
             //OnClick configurieren, sodass die ProfilActivity die richtigen Daten uebergeben bekommt
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,6 +86,12 @@ public class PlayersFragment extends Fragment {
                     dialog.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+
+                            //Bild löschen
+                            File toDelete = new File(pControl.getPlayerList().get(b.getId()).getImagepath() + pControl.getPlayerList().get(b.getId()).getName());
+                            toDelete.delete();
+
+                            //Spieler aus Liste nehemen und JSON updaten
                             pControl.getPlayerList().remove(b.getId());
                             pControl.getPlayerList().trimToSize();
                             pControl.writeToJSON(c);
@@ -106,6 +115,8 @@ public class PlayersFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        pControl = new PlayerController(new ArrayList<Player>());
+        pControl.readFromJSON(c);
         linLayout.removeAllViews();
         displayPlayer();
     }
@@ -134,15 +145,10 @@ public class PlayersFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 1){
-            //Daten aus ResultSet holen
-            String name = data.getExtras().getString("name");
-            String comment = data.getExtras().getString("comment");
 
+        if(resultCode == NEW_PLAYER_ADDED){
             //Neuen Player anlegen und zum playerController hinzufügen
-            Player p = new Player(name,comment,null,new PlayerStats(0,0));
-            pControl.getPlayerList().add(p);
-            pControl.writeToJSON(c);
+            pControl.readFromJSON(c);
             linLayout.removeAllViews();
             displayPlayer();
         }
