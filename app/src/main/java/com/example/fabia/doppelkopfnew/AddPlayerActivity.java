@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ public class AddPlayerActivity extends AppCompatActivity {
 
     private PlayerController playerController;
     private int IMAGE_REQUEST = 1;
+    private int CAMERA_REQUEST = 2;
     private int NEW_PLAYER_ADDED = 1;
 
     @Override
@@ -40,6 +42,16 @@ public class AddPlayerActivity extends AppCompatActivity {
         final EditText commentText = findViewById(R.id.playerCommentEditText);
         Button addBtn = findViewById(R.id.playerHinzufuegenButton);
         ImageButton imageButton = findViewById(R.id.playerAddImageButton);
+        ImageButton cameraImagebtn = findViewById(R.id.playerAddCameraImageButton);
+
+        //Config Camera Button
+        cameraImagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePicture, CAMERA_REQUEST);
+            }
+        });
 
         //Config Image Button
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -73,8 +85,10 @@ public class AddPlayerActivity extends AppCompatActivity {
 
                 //Bild speichern wenn name unique damit nicht Bilder ueberschrieben werden
                 if(!playerController.isInList(name)){
-                    if(bitmap != null){
-                        pPath = PictureStorageHelper.saveToInternalStorage(bitmap,AddPlayerActivity.this, name + ".jpg");
+                    if(bitmap != null) {
+                        pPath = PictureStorageHelper.saveToInternalStorage(bitmap, AddPlayerActivity.this, name + ".jpg");
+                    }else{
+                        pPath = "noPath";
                     }
                 }
 
@@ -107,6 +121,15 @@ public class AddPlayerActivity extends AppCompatActivity {
             }
             else {
                 Toast.makeText(AddPlayerActivity.this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if(reqCode == CAMERA_REQUEST){
+            if(resultCode == RESULT_OK){
+
+                    bitmap = (Bitmap) data.getExtras().get("data");
+
+
             }
         }
 

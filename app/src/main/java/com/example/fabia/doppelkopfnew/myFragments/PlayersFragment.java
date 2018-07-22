@@ -55,7 +55,8 @@ public class PlayersFragment extends Fragment {
             b.setId(i);
             b.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             b.setStateListAnimator(null);
-            b.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            b.setBackgroundColor(getResources().getColor(R.color.coloGrey));
+            b.setElevation(3.0f);
             b.setTextSize(30);
             b.setAllCaps(false);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
