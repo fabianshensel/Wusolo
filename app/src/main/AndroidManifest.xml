@@ -28,11 +28,13 @@
         <activity android:name=".AboutUsActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".PlayerProfilActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/ToolbarTheme"/>
         <activity android:name=".PlayerListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".AddPlayerActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/ToolbarTheme"/>
     </application>
 
 </manifest>

@@ -94,7 +94,7 @@
                 app:layout_constraintStart_toEndOf="@+id/profilPlayerNameTextView"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@mipmap/baseline_account_box_black_48dp" />
+                app:srcCompat="@mipmap/ic_default_man_icon_foreground" />
 
             <TextView
                 android:id="@+id/profilWinsTextView"

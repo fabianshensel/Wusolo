@@ -13,6 +13,10 @@ public class PlayerProfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_profil);
 
+        //Create Backbutton on Toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         //get Player from Intent
         Player toDisplay = (Player) getIntent().getParcelableExtra("player");
 
@@ -38,5 +42,12 @@ public class PlayerProfilActivity extends AppCompatActivity {
 
 
 
+    }
+
+    //Für Toolbar damit beim drücken vom Backbutton zurückgesprungen wird
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

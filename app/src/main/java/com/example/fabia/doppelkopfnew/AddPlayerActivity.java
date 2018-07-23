@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -29,10 +31,16 @@ public class AddPlayerActivity extends AppCompatActivity {
     private int CAMERA_REQUEST = 2;
     private int NEW_PLAYER_ADDED = 1;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_player);
+
+        //Create Backbutton on Toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         playerController = new PlayerController(new ArrayList<Player>());
         playerController.readFromJSON(this);
@@ -43,6 +51,31 @@ public class AddPlayerActivity extends AppCompatActivity {
         Button addBtn = findViewById(R.id.playerHinzufuegenButton);
         ImageButton imageButton = findViewById(R.id.playerAddImageButton);
         ImageButton cameraImagebtn = findViewById(R.id.playerAddCameraImageButton);
+        final ImageButton defaultMan = findViewById(R.id.deafultManImageButton);
+        final ImageButton defaultGirl = findViewById(R.id.deafultGirlImageButton);
+
+        //defaultMan Bitmap als default festlegen
+        defaultMan.setBackground(getDrawable(R.drawable.selected_round_background));
+
+        //Congif defaultGirl Button
+        defaultGirl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bitmap = ((BitmapDrawable)defaultGirl.getDrawable()).getBitmap();
+                defaultGirl.setBackground(getDrawable(R.drawable.selected_round_background));
+                defaultMan.setBackgroundColor(Color.TRANSPARENT);
+            }
+        });
+
+        //Config defaultMan button
+        defaultMan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bitmap = ((BitmapDrawable)defaultMan.getDrawable()).getBitmap();
+                defaultMan.setBackground(getDrawable(R.drawable.selected_round_background));
+                defaultGirl.setBackgroundColor(Color.TRANSPARENT);
+            }
+        });
 
         //Config Camera Button
         cameraImagebtn.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +137,16 @@ public class AddPlayerActivity extends AppCompatActivity {
     }
 
 
+    //Für Toolbar damit beim drücken vom Backbutton zurückgesprungen wird
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+
+
+
     //Result von PhotoPicker holen in Attribut bitmap speichern noch nicht in Speicher von Handy speichern
     @Override
     public void onActivityResult(int reqCode, int resultCode, Intent data) {
@@ -114,6 +157,12 @@ public class AddPlayerActivity extends AppCompatActivity {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 bitmap = BitmapFactory.decodeStream(imageStream);
+
+                //Auswahlanzeige zurücksetzen
+                ImageButton defaultMan = findViewById(R.id.deafultManImageButton);
+                ImageButton defaultGirl = findViewById(R.id.deafultGirlImageButton);
+                defaultMan.setBackgroundColor(Color.TRANSPARENT);
+                defaultGirl.setBackgroundColor(Color.TRANSPARENT);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -128,6 +177,12 @@ public class AddPlayerActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
 
                     bitmap = (Bitmap) data.getExtras().get("data");
+
+                //Auswahlanzeige zurücksetzen
+                ImageButton defaultMan = findViewById(R.id.deafultManImageButton);
+                ImageButton defaultGirl = findViewById(R.id.deafultGirlImageButton);
+                defaultMan.setBackgroundColor(Color.TRANSPARENT);
+                defaultGirl.setBackgroundColor(Color.TRANSPARENT);
 
 
             }
