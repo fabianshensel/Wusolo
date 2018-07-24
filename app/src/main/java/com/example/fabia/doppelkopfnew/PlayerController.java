@@ -31,7 +31,22 @@ public class PlayerController {
             }
         }
         return false;
+
     }
+
+    /*
+    might return null if Player not in List
+     */
+    public Player getPlayerbyName(String name){
+        for(int i = 0; i < playerList.size();i++){
+            if(playerList.get(i).getName().equals(name)){
+                return  playerList.get(i);
+            }
+        }
+        return null;
+    }
+
+
 
     public ArrayList<Player> getPlayerList() {
         return playerList;

@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_profiles:
                 //Fragment init und per Manager laden
                 PlayersFragment pFrag = new PlayersFragment();
+                pFrag.setContext(this);
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,pFrag).commit();
                 //Damit es schön aussieht den MenuDrawer schließen
                 mDrawerLayout.closeDrawers();
-                pFrag.setContext(this);
                 break;
 
             case R.id.nav_lastgame:
@@ -86,7 +86,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_games_history:
-                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new GameListFragment()).commit();
+                GameListFragment gameFrag = new GameListFragment();
+                gameFrag.setContext(this);
+                getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,gameFrag).commit();
                 mDrawerLayout.closeDrawers();
                 break;
 

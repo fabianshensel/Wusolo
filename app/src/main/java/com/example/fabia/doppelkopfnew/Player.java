@@ -12,6 +12,12 @@ public class Player implements Parcelable {
     private String imagepath;
 
 
+    //benötigt um bei SpielerAuswahl im Spinner bei Gameerstellung den Namen anzuuzeigen
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     public Player(String name, String comment, Image image, PlayerStats stats, String imagepath) {
         this.name = name;
         this.comment = comment;

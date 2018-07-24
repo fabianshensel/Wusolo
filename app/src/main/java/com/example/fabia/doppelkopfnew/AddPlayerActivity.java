@@ -103,11 +103,11 @@ public class AddPlayerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String name = nameText.getText().toString();
                 if(name.isEmpty()){
-                    Toast.makeText(AddPlayerActivity.this, "You need to specify a Name!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddPlayerActivity.this, "Bitte Namen eingaben",Toast.LENGTH_LONG).show();
                     return;
                 }
                 if(playerController.isInList(name)){
-                    Toast.makeText(AddPlayerActivity.this, "Player already exist, choose a different Name!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddPlayerActivity.this, "Es gibt bereits einen Spieler mit diesem Namen",Toast.LENGTH_LONG).show();
                     return;
                 }
 
