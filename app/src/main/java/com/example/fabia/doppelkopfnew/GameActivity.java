@@ -1,5 +1,8 @@
 package com.example.fabia.doppelkopfnew;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.LayoutDirection;
@@ -8,11 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
@@ -47,26 +53,177 @@ public class GameActivity extends AppCompatActivity {
         p2name.setText(game.getPlayer2().getName());
         p3name.setText(game.getPlayer3().getName());
 
+        //Init ScoreViews
+        TextView score0 = findViewById(R.id.score0TextView);
+        TextView score1 = findViewById(R.id.score1TextView);
+        TextView score2 = findViewById(R.id.score2TextView);
+        TextView score3 = findViewById(R.id.score3TextView);
+
+        score0.setText(String.valueOf(0));
+        score1.setText(String.valueOf(0));
+        score2.setText(String.valueOf(0));
+        score3.setText(String.valueOf(0));
+        
         //Get Enter Button
         Button enterButton = findViewById(R.id.enterPointsButton);
+
+        //-----BEGIN DIALOG ABLAUF FÜR EINGABE VON SPIELDATEN----
+        //Config Dialog for Enterbutton
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText numberInput = findViewById(R.id.gamePointsEditText);
-                String input = numberInput.getText().toString();
-                if(input.isEmpty()){
-                    Toast.makeText(GameActivity.this, "Bitte gebe eine Zahl ein", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                int number = Integer.valueOf(input);
-                insertStats(number,-number,number,-number);
+
+                //Alert Dialog erstellen welcher Spieler anzeigt aus welchen man gewinner aussucht
+                AlertDialog.Builder winnerDialog = new AlertDialog.Builder(GameActivity.this);
+                winnerDialog.setTitle("Gewinner");
+
+                //Liste an Spielern
+                final String[] items = new String[]{
+                  game.getPlayer0().getName(),
+                        game.getPlayer1().getName(),
+                        game.getPlayer2().getName(),
+                        game.getPlayer3().getName()
+
+                };
+                //Liste welche Spieler Ausgewählt sind
+                final boolean[] checkedItems = new boolean[]{
+                        false,
+                        false,
+                        false,
+                        false
+
+                };
+                //Liste zum anzeigen festlegen und checkedItems updaten wenn onClick event
+                winnerDialog.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        checkedItems[i] = b;
+
+                    }
+                });
+
+                //Weiter Button Configurieren
+                winnerDialog.setPositiveButton("Weiter", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                winnerDialog.setNegativeButton("Abbrechen",null);
+
+                //Dialog anzeigen
+                final AlertDialog winnerAlertDialog = winnerDialog.show();
+
+                //Weiter Button onClick Listener überschreiben damit bei flascher Eingabe Dialog trzdm offen bleibt
+                winnerAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Anzahl ausgewählter Spieler bestimmen
+                        int counter = 0;
+                        for(int j = 0; j < 4; j++){
+                            if(checkedItems[j]){
+                                counter++;
+                            }
+                        }
+                        //Wenn nicht 1 oder 2 Spieler ausgewählt sind Toast ausgeben und return
+                        if(counter != 1 && counter != 2){
+                            Toast.makeText(GameActivity.this, "Es können nur 1 oder 2 Spieler gewinnen", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        //Wenn Auswahl ok Dialog schließen
+                        winnerAlertDialog.dismiss();
+
+                        //Neuen Dialog zum Wählen der Punktzahl Builden
+                        AlertDialog.Builder pointsDialog = new AlertDialog.Builder(GameActivity.this);
+
+                        //NumberPicker erstellen um Auswahl zu ermöglichen
+                        final NumberPicker numberPicker = new NumberPicker(GameActivity.this);
+                        numberPicker.setMaxValue(50);
+                        numberPicker.setMinValue(0);
+                        pointsDialog.setView(numberPicker);
+
+
+                        pointsDialog.setNegativeButton("Abbruch",null);
+
+                        pointsDialog.setPositiveButton("Eintragen",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                //Ausgewählte anzahl an Punkten holen und für Verlierer Anzahl Punkte invertieren
+                                int points = numberPicker.getValue();
+                                int p0 = points;
+                                int p1 = points;
+                                int p2 = points;
+                                int p3 = points;
+
+                                if(!checkedItems[0]){
+                                    p0 = -p0;
+                                }
+                                if(!checkedItems[1]){
+                                    p1 = -p1;
+                                }
+                                if(!checkedItems[2]){
+                                    p2 = -p2;
+                                }
+                                if(!checkedItems[3]){
+                                    p3 = -p3;
+                                }
+
+                                insertStats(p0,p1,p2,p3);
+
+                                //Anzeige vom Punktestand anpassen
+                                updateScore(p0,p1,p2,p3);
+
+
+                            }
+                        });
+
+                        pointsDialog.show();
+                    }
+                });
+
+
+                
+
+
             }
         });
+        //-----ENDE DIALOG ABLAUF FÜR EINGABE VON SPIELDATEN----
 
 
 
 
+
+
+    }
+
+    /*
+    Updated die Punkteanzeige mit den übergebenen Werten
+     */
+    private void updateScore(int points0,int points1, int points2, int points3){
+        //Get ScoreViews und Update den Angezeigten Score
+        TextView score0 = findViewById(R.id.score0TextView);
+        TextView score1 = findViewById(R.id.score1TextView);
+        TextView score2 = findViewById(R.id.score2TextView);
+        TextView score3 = findViewById(R.id.score3TextView);
+
+        int curr = Integer.valueOf(score0.getText().toString());
+        curr = curr + points0;
+        score0.setText(String.valueOf(curr));
+
+        curr = Integer.valueOf(score1.getText().toString());
+        curr = curr + points1;
+        score1.setText(String.valueOf(curr));
+
+        curr = Integer.valueOf(score2.getText().toString());
+        curr = curr + points2;
+        score2.setText(String.valueOf(curr));
+
+        curr = Integer.valueOf(score3.getText().toString());
+        curr = curr + points3;
+        score3.setText(String.valueOf(curr));
 
 
     }
