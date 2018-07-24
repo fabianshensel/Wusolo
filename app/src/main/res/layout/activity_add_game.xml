@@ -41,7 +41,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="6dp"
         android:ems="10"
-        android:hint="runde mit bestiees"
+        android:hint="Runde im Kürzer"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.052"
@@ -120,17 +120,17 @@
         app:layout_constraintTop_toBottomOf="@+id/player2Spinner" />
 
     <Spinner
-        android:id="@+id/player3Spinner"
+        android:id="@+id/player4Spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/player4Spinner"
+        app:layout_constraintStart_toEndOf="@+id/player3Spinner"
         app:layout_constraintTop_toBottomOf="@+id/spieler4textView" />
 
     <Spinner
-        android:id="@+id/player4Spinner"
+        android:id="@+id/player3Spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

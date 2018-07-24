@@ -29,6 +29,15 @@ public class GameController {
         return false;
     }
 
+    public Game getGamebyName(String name){
+        for(int i = 0; i < gameList.size();i++){
+            if(gameList.get(i).getName().equals(name)){
+                return gameList.get(i);
+            }
+        }
+        return null;
+    }
+
     /*
     schreibt momentanen Inhalt von gameList in Games.txt
      */

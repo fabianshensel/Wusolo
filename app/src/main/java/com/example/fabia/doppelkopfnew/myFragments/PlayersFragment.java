@@ -59,10 +59,11 @@ public class PlayersFragment extends Fragment {
             b.setElevation(3.0f);
             b.setTextSize(30);
             b.setAllCaps(false);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.setMargins(10,10,10,10);
             b.setGravity(Gravity.LEFT);
             b.setLayoutParams(params);
+            b.setPadding(0,50,0,50);
             //fanzy shit damit der button ein wenig netter aussieht
 
             //OnClick configurieren, sodass die ProfilActivity die richtigen Daten uebergeben bekommt
