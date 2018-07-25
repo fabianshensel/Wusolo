@@ -56,6 +56,8 @@ public class AddPlayerActivity extends AppCompatActivity {
 
         //defaultMan Bitmap als default festlegen
         defaultMan.setBackground(getDrawable(R.drawable.selected_round_background));
+        bitmap = ((BitmapDrawable)defaultMan.getDrawable()).getBitmap();
+
 
         //Congif defaultGirl Button
         defaultGirl.setOnClickListener(new View.OnClickListener() {

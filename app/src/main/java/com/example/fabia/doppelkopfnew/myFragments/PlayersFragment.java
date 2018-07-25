@@ -90,8 +90,11 @@ public class PlayersFragment extends Fragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
 
                             //Bild löschen
-                            File toDelete = new File(pControl.getPlayerList().get(b.getId()).getImagepath() + pControl.getPlayerList().get(b.getId()).getName());
-                            toDelete.delete();
+                            File toDelete = new File(pControl.getPlayerList().get(b.getId()).getImagepath() , pControl.getPlayerList().get(b.getId()).getName() + ".jpg");
+                            if(toDelete.exists()){
+                                toDelete.delete();
+                            }
+
 
                             //Spieler aus Liste nehemen und JSON updaten
                             pControl.getPlayerList().remove(b.getId());

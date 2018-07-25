@@ -1,5 +1,6 @@
 package com.example.fabia.doppelkopfnew;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public class GameActivity extends AppCompatActivity {
 
     Game game;
+    GameController gameController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +37,17 @@ public class GameActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //Get Selected Game
-        GameController gameController = new GameController(new ArrayList<Game>());
+        gameController = new GameController(new ArrayList<Game>());
         gameController.readFromJSON(GameActivity.this);
         game = gameController.getGamebyName(getIntent().getStringExtra("name"));
+
+        if(GameController.isGameDirty(game)){
+            Toast.makeText(GameActivity.this, "Fehlerhaftes Spiel", Toast.LENGTH_SHORT).show();
+            this.finish();
+            return;
+        }
+
+
 
         //Display GameName
         TextView nameView = findViewById(R.id.GameNameTextView);
@@ -63,6 +73,10 @@ public class GameActivity extends AppCompatActivity {
         score1.setText(String.valueOf(0));
         score2.setText(String.valueOf(0));
         score3.setText(String.valueOf(0));
+
+        if(!game.getRoundStats().isEmpty()){
+            displayStats();
+        }
         
         //Get Enter Button
         Button enterButton = findViewById(R.id.enterPointsButton);
@@ -171,11 +185,16 @@ public class GameActivity extends AppCompatActivity {
                                     p3 = -p3;
                                 }
 
+
+
                                 insertStats(p0,p1,p2,p3);
 
                                 //Anzeige vom Punktestand anpassen
                                 updateScore(p0,p1,p2,p3);
 
+                                RoundStats thisRound = new RoundStats(checkedItems[0],checkedItems[1],checkedItems[2],checkedItems[3],checkForSoloWin(checkedItems),points);
+
+                                game.getRoundStats().add(thisRound);
 
                             }
                         });
@@ -197,6 +216,65 @@ public class GameActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void displayStats(){
+        for(int i = 0 ; i < game.getRoundStats().size();i++){
+            int points0 = game.getRoundStats().get(i).getPoints();
+            int points1 = game.getRoundStats().get(i).getPoints();
+            int points2 = game.getRoundStats().get(i).getPoints();
+            int points3 = game.getRoundStats().get(i).getPoints();
+
+            if(!game.getRoundStats().get(i).isIsplayer0win()){
+                points0 = -points0;
+            }
+            if(!game.getRoundStats().get(i).isIsplayer1win()){
+                points1 = -points1;
+            }
+            if(!game.getRoundStats().get(i).isIsplayer2win()){
+                points2 = -points2;
+            }
+            if(!game.getRoundStats().get(i).isIsplayer3win()){
+                points3 = -points3;
+            }
+
+            insertStats(points0,points1,points2,points3);
+            updateScore(points0,points1,points2,points3);
+        }
+    }
+
+
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Nur schreiben wenn Game nicht dirty
+        if(!GameController.isGameDirty(game)){
+            gameController.writeToJSON(GameActivity.this);
+        }
+
+    }
+
+    /*
+        funzt nur wenn max 2 spieler gewinnen können
+         */
+    private boolean checkForSoloWin(boolean[] checkedPlayers){
+        boolean isSoloWin = false;
+        if(checkedPlayers[0]){
+            isSoloWin = !isSoloWin;
+        }
+        if(checkedPlayers[1]){
+            isSoloWin = !isSoloWin;
+        }
+        if(checkedPlayers[2]){
+            isSoloWin = !isSoloWin;
+        }
+        if(checkedPlayers[3]){
+            isSoloWin = !isSoloWin;
+        }
+        return isSoloWin;
     }
 
     /*

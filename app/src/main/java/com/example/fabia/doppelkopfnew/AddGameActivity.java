@@ -91,7 +91,8 @@ public class AddGameActivity extends AppCompatActivity {
                     return;
                 }
 
-                Game newGame = new Game(gameName,p1,p2,p3,p4);
+                Game newGame = new Game(gameName,p1,p2,p3,p4,new ArrayList<RoundStats>());
+                //gameController.readFromJSON(AddGameActivity.this);
                 gameController.getGameList().add(newGame);
                 gameController.writeToJSON(AddGameActivity.this);
                 finish();

@@ -1,5 +1,6 @@
 package com.example.fabia.doppelkopfnew;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game {
@@ -13,12 +14,32 @@ public class Game {
 
     private ArrayList<RoundStats> roundStats;
 
-    public Game(String name, Player player0, Player player1, Player player2, Player player3) {
+    public Game(String name, Player player0, Player player1, Player player2, Player player3, ArrayList<RoundStats> roundStats) {
         this.name = name;
         this.player0 = player0;
         this.player1 = player1;
         this.player2 = player2;
         this.player3 = player3;
+        this.roundStats = roundStats;
+    }
+
+    /*
+    returns -1 if player not in game
+     */
+    public int getIndexOfPlayer(String name){
+        if(player0.getName().equals(name)){
+            return 0;
+        }
+        if(player1.getName().equals(name)){
+            return 1;
+        }
+        if(player2.getName().equals(name)){
+            return 2;
+        }
+        if(player3.getName().equals(name)){
+            return 3;
+        }
+        return -1;
     }
 
     public String getName() {

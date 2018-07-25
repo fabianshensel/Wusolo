@@ -29,6 +29,22 @@ public class GameController {
         return false;
     }
 
+    public ArrayList<Game> getGamesWithPlayer(String name){
+        ArrayList<Game> returnList = new ArrayList<>();
+
+        for(int i = 0; i < gameList.size();i++){
+            //Schaut on SpielerName mit einem der Spieler im game übereinstimmt
+
+            if(!GameController.isGameDirty(gameList.get(i))){
+                if(gameList.get(i).getPlayer0().getName().equals(name) || gameList.get(i).getPlayer1().getName().equals(name) || gameList.get(i).getPlayer2().getName().equals(name) || gameList.get(i).getPlayer3().getName().equals(name)){
+                    returnList.add(gameList.get(i));
+
+                }
+            }
+        }
+        return returnList;
+    }
+
     public Game getGamebyName(String name){
         for(int i = 0; i < gameList.size();i++){
             if(gameList.get(i).getName().equals(name)){
@@ -60,10 +76,42 @@ public class GameController {
                 JSONObject obj = new JSONObject();
                 Game g = gameList.get(i);
                 obj.put("name",g.getName());
-                obj.put("player0",g.getPlayer0().getName());
-                obj.put("player1",g.getPlayer1().getName());
-                obj.put("player2",g.getPlayer2().getName());
-                obj.put("player3",g.getPlayer3().getName());
+                if(g.getPlayer0() != null){
+                    obj.put("player0",g.getPlayer0().getName());
+                }else{
+                    obj.put("player0","noName0");
+                }
+
+                if(g.getPlayer1() != null){
+                    obj.put("player1",g.getPlayer1().getName());
+                }else{
+                    obj.put("player1","noName1");
+                }
+                if(g.getPlayer2() != null){
+                    obj.put("player2",g.getPlayer2().getName());
+                }else{
+                    obj.put("player2","noName2");
+                }
+                if(g.getPlayer3() != null){
+                    obj.put("player3",g.getPlayer3().getName());
+                }else{
+                    obj.put("player3","noName3");
+                }
+
+                for(int j = 0; j < gameList.get(i).getRoundStats().size(); j++){
+                    JSONObject roundObj = new JSONObject();
+                    RoundStats stats = gameList.get(i).getRoundStats().get(j);
+
+                    roundObj.put("isplayer0",stats.isIsplayer0win());
+                    roundObj.put("isplayer1",stats.isIsplayer1win());
+                    roundObj.put("isplayer2",stats.isIsplayer2win());
+                    roundObj.put("isplayer3",stats.isIsplayer3win());
+                    roundObj.put("isSolo",stats.isSoloWin());
+                    roundObj.put("points",stats.getPoints());
+
+                    obj.put(String.valueOf(j),roundObj);
+                }
+
                 jsonArray.put(obj);
             }
             outWriter.append(jsonArray.toString());
@@ -114,10 +162,31 @@ public class GameController {
                 String p2 = obj.getString("player2");
                 String p3 = obj.getString("player3");
 
+                ArrayList<RoundStats> roundStats = new ArrayList<>();
+                for(int j = 0; ;j++){
+                    if(obj.has(String.valueOf(j))){
+                    JSONObject roundObj = obj.getJSONObject(String.valueOf(j));
+                        boolean isp0 = roundObj.getBoolean("isplayer0");
+                        boolean isp1 = roundObj.getBoolean("isplayer1");
+                        boolean isp2 = roundObj.getBoolean("isplayer2");
+                        boolean isp3 = roundObj.getBoolean("isplayer3");
+                        boolean isSolo = roundObj.getBoolean("isSolo");
+                        int points = roundObj.getInt("points");
+                        RoundStats r = new RoundStats(isp0,isp1,isp2,isp3,isSolo,points);
+                        roundStats.add(r);
+                    }else{
+                        break;
+                    }
+
+                }
+
+
                 PlayerController pControl = new PlayerController(new ArrayList<Player>());
                 pControl.readFromJSON(c);
 
-                Game g = new Game(name,pControl.getPlayerbyName(p0),pControl.getPlayerbyName(p1),pControl.getPlayerbyName(p2),pControl.getPlayerbyName(p3));
+
+
+                Game g = new Game(name,pControl.getPlayerbyName(p0),pControl.getPlayerbyName(p1),pControl.getPlayerbyName(p2),pControl.getPlayerbyName(p3),roundStats);
                 gameList.add(g);
             }
         }
@@ -126,6 +195,16 @@ public class GameController {
             Log.e("Exp",e.getMessage());
 
         }
+    }
+
+    /*
+    Checks if a Player who was once in the Game now is not anymore
+     */
+    static public boolean isGameDirty(Game game){
+        if(game.getPlayer0() == null || game.getPlayer1() == null || game.getPlayer2() == null || game.getPlayer3() == null ){
+            return true;
+        }
+        return false;
     }
 
     public GameController(ArrayList<Game> gameList) {

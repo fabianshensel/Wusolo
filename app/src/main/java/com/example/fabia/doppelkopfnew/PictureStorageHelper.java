@@ -4,19 +4,27 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class PictureStorageHelper {
 
     static public String saveToInternalStorage(Bitmap bitmapImage, Context c , String imageName){
         ContextWrapper cw = new ContextWrapper(c);
         // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+
+        File directory = new File(c.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),"myFiles");
+
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
         // Create imageDir
         File mypath = new File(directory,imageName);
 
