@@ -25,18 +25,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AboutUsActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".PlayerProfilActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ToolbarTheme" />
-        <activity
-            android:name=".PlayerListActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".AddPlayerActivity"
             android:screenOrientation="portrait"
