@@ -37,8 +37,6 @@ public class PlayerProfilActivity extends AppCompatActivity {
         //Set Views to display Player
         nameTV.setText(toDisplay.getName());
         commentTV.setText("'" + toDisplay.getComment() + "'");
-        winsTV.setText( getString(R.string.wins) + ": " + toDisplay.getStats().getWinCount());
-        losesTV.setText(getString(R.string.loss) + ": " + toDisplay.getStats().getLossCount());
 
         Bitmap b = PictureStorageHelper.loadImageFromStorage(toDisplay.getImagepath() , toDisplay.getName() + ".jpg");
         if(b != null){

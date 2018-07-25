@@ -79,8 +79,6 @@ public class PlayerController {
                 obj.put("name",p.getName());
                 obj.put("comment",p.getComment());
                 obj.put("path",p.getImagepath());
-                obj.put("wins",p.getStats().getWinCount());
-                obj.put("loses",p.getStats().getLossCount());
                 jsonArray.put(obj);
             }
             outWriter.append(jsonArray.toString());
@@ -127,11 +125,9 @@ public class PlayerController {
                 String name = obj.getString("name");
                 String comment = obj.getString("comment");
                 String path = obj.getString("path");
-                int wins = obj.getInt("wins");
-                int loses = obj.getInt("loses");
 
 
-                Player p = new Player(name,comment,null,new PlayerStats(wins,loses),path);
+                Player p = new Player(name,comment,path);
                 playerList.add(p);
             }
         }
@@ -140,23 +136,5 @@ public class PlayerController {
             Log.e("Exp",e.getMessage());
 
         }
-    }
-
-    /*
-    Liste mit DefaultWerten befuellen um ein wenig testen zu koennen
-     */
-    public void fillList(){
-        playerList.add(new Player("Fabian Hensel","Ich spiele super gerne Doppelkopf",null,new PlayerStats(1,99),""));
-        playerList.add(new Player("Torben Glass","Halt dein Maul",null,new PlayerStats(99,1),""));
-        playerList.add(new Player("Jeremy Tuller","Ich hab dann mal Recht studiert",null,new PlayerStats(0,0),""));
-        playerList.add(new Player("Simon Wusolo","Wo ist die Milch hin?",null,new PlayerStats(99,99),""));
-        playerList.add(new Player("Simon Wusolo","Wo ist die Milch hin?",null,new PlayerStats(99,99),""));
-        playerList.add(new Player("Simon Wusolo","Wo ist die Milch hin?",null,new PlayerStats(99,99),""));
-        playerList.add(new Player("Simon Wusolo","Wo ist die Milch hin?",null,new PlayerStats(99,99),""));
-        playerList.add(new Player("Simon Wusolo","Wo ist die Milch hin?",null,new PlayerStats(99,99),""));
-        playerList.add(new Player("Simon Wusolo","Wo ist die Milch hin?",null,new PlayerStats(99,99),""));
-        playerList.add(new Player("Simon Wusolo","Wo ist die Milch hin?",null,new PlayerStats(99,99),""));
-        playerList.add(new Player("Simon Wusolo","Wo ist die Milch hin?",null,new PlayerStats(99,99),""));
-        playerList.add(new Player("Simon Wusolo","Wo ist die Milch hin?",null,new PlayerStats(99,99),""));
     }
 }

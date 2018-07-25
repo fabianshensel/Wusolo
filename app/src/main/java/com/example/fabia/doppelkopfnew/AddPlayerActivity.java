@@ -128,7 +128,7 @@ public class AddPlayerActivity extends AppCompatActivity {
                 }
 
                 //Neuen Spieler erstellen und in JSON-Datei abspeichern
-                playerController.getPlayerList().add(new Player(name,comment,null,new PlayerStats(0,0),pPath));
+                playerController.getPlayerList().add(new Player(name,comment,pPath));
                 playerController.writeToJSON(AddPlayerActivity.this);
 
                 setResult(NEW_PLAYER_ADDED);

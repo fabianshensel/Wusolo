@@ -7,8 +7,6 @@ import android.os.Parcelable;
 public class Player implements Parcelable {
     private String name;
     private String comment;
-    private Image image;
-    private PlayerStats stats;
     private String imagepath;
 
 
@@ -18,11 +16,9 @@ public class Player implements Parcelable {
         return this.name;
     }
 
-    public Player(String name, String comment, Image image, PlayerStats stats, String imagepath) {
+    public Player(String name, String comment, String imagepath) {
         this.name = name;
         this.comment = comment;
-        this.image = image;
-        this.stats = stats;
         this.imagepath = imagepath;
     }
 
@@ -31,14 +27,12 @@ public class Player implements Parcelable {
      */
 
     public Player(Parcel in){
-        String[] data = new String[5];
+        String[] data = new String[3];
         in.readStringArray(data);
         this.name = data[0];
         this.comment = data[1];
         this.imagepath = data[2];
-        this.stats = new PlayerStats(Integer.valueOf(data[3]),Integer.valueOf(data[4]));
         //noch kein plan wie das laufen soll
-        this.image = null;
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -59,9 +53,7 @@ public class Player implements Parcelable {
                 {
                         this.name,
                         this.comment,
-                        this.imagepath,
-                        String.valueOf(this.stats.getWinCount()),
-                        String.valueOf(this.stats.getLossCount())
+                        this.imagepath
                 };
         dest.writeStringArray(s);
     }
@@ -97,21 +89,5 @@ public class Player implements Parcelable {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public PlayerStats getStats() {
-        return stats;
-    }
-
-    public void setStats(PlayerStats stats) {
-        this.stats = stats;
     }
 }
