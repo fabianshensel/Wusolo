@@ -43,7 +43,7 @@
                 android:layout_weight="1"
                 android:text="Player0"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textStyle="italic" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_weight="1"
                 android:text="Player1"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textStyle="italic" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_weight="1"
                 android:text="Player2"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textStyle="italic" />
 
             <TextView
@@ -73,7 +73,7 @@
                 android:layout_weight="1"
                 android:text="Player3"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textStyle="italic" />
         </TableRow>
 

@@ -5,10 +5,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -207,6 +212,12 @@ public class GameActivity extends AppCompatActivity {
 
                                 insertStats(p0,p1,p2,p3,bock,game.getRoundStats().size());
                                 //Anzeige vom Punktestand anpassen
+                                if(bock > 0){
+                                    p0 *= 2;
+                                    p1 *= 2;
+                                    p2 *= 2;
+                                    p3 *= 2;
+                                }
                                 updateScore(p0,p1,p2,p3);
 
                                 RoundStats thisRound = new RoundStats(checkedItems[0],checkedItems[1],checkedItems[2],checkedItems[3],checkForSoloWin(checkedItems),points,bock);
@@ -344,10 +355,10 @@ public class GameActivity extends AppCompatActivity {
             points1 *= 2;
             points2 *= 2;
             points3 *= 2;
-            tv0.setTextColor(Color.GREEN);
-            tv1.setTextColor(Color.GREEN);
-            tv2.setTextColor(Color.GREEN);
-            tv3.setTextColor(Color.GREEN);
+            tv0.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
+            tv1.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
+            tv2.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
+            tv3.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
         }
         tv0.setText(String.valueOf(points0));
         tv1.setText(String.valueOf(points1));
