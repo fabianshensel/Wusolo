@@ -10,15 +10,17 @@ public class RoundStats {
 
     private boolean isSoloWin;
 
+    private int bockRoundsleft;
     private int points;
 
-    public RoundStats(boolean isplayer0win, boolean isplayer1win, boolean isplayer2win, boolean isplayer3win, boolean isSoloWin, int points) {
+    public RoundStats(boolean isplayer0win, boolean isplayer1win, boolean isplayer2win, boolean isplayer3win, boolean isSoloWin, int points, int bockRoundsleft) {
         this.isplayer0win = isplayer0win;
         this.isplayer1win = isplayer1win;
         this.isplayer2win = isplayer2win;
         this.isplayer3win = isplayer3win;
         this.isSoloWin = isSoloWin;
         this.points = points;
+        this.bockRoundsleft = bockRoundsleft;
     }
 
     public boolean isIsplayer0win() {
@@ -67,5 +69,13 @@ public class RoundStats {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public int getBockRoundsleft() {
+        return bockRoundsleft;
+    }
+
+    public void setBockRoundsleft(int bockRoundsleft) {
+        this.bockRoundsleft = bockRoundsleft;
     }
 }

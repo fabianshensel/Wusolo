@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.LayoutDirection;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,11 +99,13 @@ public class GameActivity extends AppCompatActivity {
                   game.getPlayer0().getName(),
                         game.getPlayer1().getName(),
                         game.getPlayer2().getName(),
-                        game.getPlayer3().getName()
+                        game.getPlayer3().getName(),
+                        "Böcke"
 
                 };
                 //Liste welche Spieler Ausgewählt sind
                 final boolean[] checkedItems = new boolean[]{
+                        false,
                         false,
                         false,
                         false,
@@ -127,6 +131,7 @@ public class GameActivity extends AppCompatActivity {
 
                 winnerDialog.setNegativeButton("Abbrechen",null);
 
+
                 //Dialog anzeigen
                 final AlertDialog winnerAlertDialog = winnerDialog.show();
 
@@ -150,14 +155,14 @@ public class GameActivity extends AppCompatActivity {
                         winnerAlertDialog.dismiss();
 
                         //Neuen Dialog zum Wählen der Punktzahl Builden
-                        AlertDialog.Builder pointsDialog = new AlertDialog.Builder(GameActivity.this);
+                        final AlertDialog.Builder pointsDialog = new AlertDialog.Builder(GameActivity.this);
 
                         //NumberPicker erstellen um Auswahl zu ermöglichen
                         final NumberPicker numberPicker = new NumberPicker(GameActivity.this);
                         numberPicker.setMaxValue(50);
                         numberPicker.setMinValue(0);
-                        pointsDialog.setView(numberPicker);
 
+                        pointsDialog.setView(numberPicker);
 
                         pointsDialog.setNegativeButton("Abbruch",null);
 
@@ -171,6 +176,7 @@ public class GameActivity extends AppCompatActivity {
                                 int p1 = points;
                                 int p2 = points;
                                 int p3 = points;
+                                int bock = 0;
 
                                 if(!checkedItems[0]){
                                     p0 = -p0;
@@ -184,15 +190,26 @@ public class GameActivity extends AppCompatActivity {
                                 if(!checkedItems[3]){
                                     p3 = -p3;
                                 }
+                                if(checkedItems[4]){
+                                    bock = 3;
+                                    Log.d("Böcke","Böcke resettet");
+                                }else{
+                                    if(!game.getRoundStats().isEmpty()){
+                                        if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() > 0){
+                                            bock = game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() - 1;
+                                            Log.d("Böcke","Böcke--: " + bock);
+                                        }
+                                    }
+
+                                }
 
 
 
-                                insertStats(p0,p1,p2,p3);
-
+                                insertStats(p0,p1,p2,p3,bock);
                                 //Anzeige vom Punktestand anpassen
                                 updateScore(p0,p1,p2,p3);
 
-                                RoundStats thisRound = new RoundStats(checkedItems[0],checkedItems[1],checkedItems[2],checkedItems[3],checkForSoloWin(checkedItems),points);
+                                RoundStats thisRound = new RoundStats(checkedItems[0],checkedItems[1],checkedItems[2],checkedItems[3],checkForSoloWin(checkedItems),points,bock);
 
                                 game.getRoundStats().add(thisRound);
 
@@ -218,6 +235,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    //Init
     private void displayStats(){
         for(int i = 0 ; i < game.getRoundStats().size();i++){
             int points0 = game.getRoundStats().get(i).getPoints();
@@ -238,7 +256,7 @@ public class GameActivity extends AppCompatActivity {
                 points3 = -points3;
             }
 
-            insertStats(points0,points1,points2,points3);
+            insertStats(points0,points1,points2,points3,game.getRoundStats().get(i).getBockRoundsleft());
             updateScore(points0,points1,points2,points3);
         }
     }
@@ -306,7 +324,9 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void insertStats(int points0,int points1, int points2, int points3){
+    private void insertStats(int points0,int points1, int points2, int points3, int countBockRounds){
+
+
         //StatsTable holen in den inserted wird
         TableLayout statsTable = findViewById(R.id.gameStatsTableLayout);
 
@@ -318,10 +338,26 @@ public class GameActivity extends AppCompatActivity {
         TextView tv1 = new TextView(this);
         TextView tv2 = new TextView(this);
         TextView tv3 = new TextView(this);
+        //Bei bockrunden anzahl verdoppeln
+        if(countBockRounds > 0){
+            points0 *= 2;
+            points1 *= 2;
+            points2 *= 2;
+            points3 *= 2;
+            tv0.setTextColor(Color.GREEN);
+            tv1.setTextColor(Color.GREEN);
+            tv2.setTextColor(Color.GREEN);
+            tv3.setTextColor(Color.GREEN);
+        }
         tv0.setText(String.valueOf(points0));
         tv1.setText(String.valueOf(points1));
         tv2.setText(String.valueOf(points2));
         tv3.setText(String.valueOf(points3));
+
+        tv0.setTextSize(24);
+        tv1.setTextSize(24);
+        tv2.setTextSize(24);
+        tv3.setTextSize(24);
 
         //LayoutParamy spezifizieren damit alle Texte die gleiche breite haben
         TableRow.LayoutParams params = new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);

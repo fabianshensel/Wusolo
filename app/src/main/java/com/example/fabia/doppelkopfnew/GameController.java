@@ -108,6 +108,7 @@ public class GameController {
                     roundObj.put("isplayer3",stats.isIsplayer3win());
                     roundObj.put("isSolo",stats.isSoloWin());
                     roundObj.put("points",stats.getPoints());
+                    roundObj.put("bock",stats.getBockRoundsleft());
 
                     obj.put(String.valueOf(j),roundObj);
                 }
@@ -172,7 +173,8 @@ public class GameController {
                         boolean isp3 = roundObj.getBoolean("isplayer3");
                         boolean isSolo = roundObj.getBoolean("isSolo");
                         int points = roundObj.getInt("points");
-                        RoundStats r = new RoundStats(isp0,isp1,isp2,isp3,isSolo,points);
+                        int bockrounds = roundObj.getInt("bock");
+                        RoundStats r = new RoundStats(isp0,isp1,isp2,isp3,isSolo,points,bockrounds);
                         roundStats.add(r);
                     }else{
                         break;
