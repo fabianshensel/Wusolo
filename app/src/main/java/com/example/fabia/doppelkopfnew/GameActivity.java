@@ -205,7 +205,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-                                insertStats(p0,p1,p2,p3,bock);
+                                insertStats(p0,p1,p2,p3,bock,game.getRoundStats().size());
                                 //Anzeige vom Punktestand anpassen
                                 updateScore(p0,p1,p2,p3);
 
@@ -256,7 +256,7 @@ public class GameActivity extends AppCompatActivity {
                 points3 = -points3;
             }
 
-            insertStats(points0,points1,points2,points3,game.getRoundStats().get(i).getBockRoundsleft());
+            insertStats(points0,points1,points2,points3,game.getRoundStats().get(i).getBockRoundsleft(),i);
             updateScore(points0,points1,points2,points3);
         }
     }
@@ -324,7 +324,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void insertStats(int points0,int points1, int points2, int points3, int countBockRounds){
+    private void insertStats(int points0,int points1, int points2, int points3, int countBockRounds,int roundNr){
 
 
         //StatsTable holen in den inserted wird
@@ -373,6 +373,15 @@ public class GameActivity extends AppCompatActivity {
         tv2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv3.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
+        //Config für rundenZähler
+        TextView roundCount = new TextView(this);
+        roundCount.setText(String.valueOf(roundNr));
+        roundCount.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        roundCount.setTextSize(20);
+        roundCount.setTextColor(Color.BLACK);
+        roundCount.setPadding(4,0,0,0);
+
+        toAdd.addView(roundCount);
         toAdd.addView(tv0);
         toAdd.addView(tv1);
         toAdd.addView(tv2);
