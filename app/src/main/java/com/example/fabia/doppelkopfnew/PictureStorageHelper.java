@@ -47,6 +47,7 @@ public class PictureStorageHelper {
         return directory.getAbsolutePath();
     }
 
+    //ImageName braucht ein + ".jpg" am ende
     static public Bitmap loadImageFromStorage(String path,String imageName)
     {
 

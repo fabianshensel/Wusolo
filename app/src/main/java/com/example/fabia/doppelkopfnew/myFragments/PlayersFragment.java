@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.fabia.doppelkopfnew.AddPlayerActivity;
+import com.example.fabia.doppelkopfnew.PictureStorageHelper;
 import com.example.fabia.doppelkopfnew.Player;
 import com.example.fabia.doppelkopfnew.PlayerController;
 import com.example.fabia.doppelkopfnew.PlayerProfilActivity;
@@ -106,7 +110,14 @@ public class PlayersFragment extends Fragment {
                 }
             });
 
+            //Fügt dem Button noch ein Bild hinzu
+            Bitmap bit = PictureStorageHelper.loadImageFromStorage(pControl.getPlayerList().get(i).getImagepath(),pControl.getPlayerList().get(i).getName() + ".jpg");
 
+            BitmapDrawable a = new BitmapDrawable(getResources(),bit);
+            a.setBounds(20,0,120,100);
+            b.setCompoundDrawables(a,null,null,null);
+
+            //Add button to linear layout
             linLayout.addView(b);
         }
     }
