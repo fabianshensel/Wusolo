@@ -31,8 +31,19 @@ import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
 
-    Game game;
-    GameController gameController;
+    private Game game;
+    private GameController gameController;
+
+    //defines how long BockRounds last
+    public static int BOCK_ROUND_COUNT = 4;
+    //defines how much BockRounds increase Score
+    public static int BOCK_ROUND_MULTIPLIER = 2;
+    //defines how much SoloRounds increase Score for Winner
+    public static int SOLO_ROUND_MULTIPLIER = 3;
+    //defines min Value for NumberPicker
+    public static int MIN_VALUE_NUMBERPICKER = 0;
+    //defines max Value for NumberPicker
+    public static int MAX_VALUE_NUMBERPICKER = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +59,7 @@ public class GameActivity extends AppCompatActivity {
         gameController.readFromJSON(GameActivity.this);
         game = gameController.getGamebyName(getIntent().getStringExtra("name"));
 
+        //When Game dirty Activity -> finish Activity and display Toast
         if(GameController.isGameDirty(game)){
             Toast.makeText(GameActivity.this, "Fehlerhaftes Spiel", Toast.LENGTH_SHORT).show();
             this.finish();
@@ -55,32 +67,17 @@ public class GameActivity extends AppCompatActivity {
         }
 
 
-
         //Display GameName
         TextView nameView = findViewById(R.id.GameNameTextView);
         nameView.setText(game.getName());
 
         //Display PlayerNames
-        TextView p0name = findViewById(R.id.player0TV);
-        TextView p1name = findViewById(R.id.player1TV);
-        TextView p2name = findViewById(R.id.player2TV);
-        TextView p3name = findViewById(R.id.player3TV);
-        p0name.setText(game.getPlayer0().getName());
-        p1name.setText(game.getPlayer1().getName());
-        p2name.setText(game.getPlayer2().getName());
-        p3name.setText(game.getPlayer3().getName());
+        displayPlayerNames();
 
         //Init ScoreViews
-        TextView score0 = findViewById(R.id.score0TextView);
-        TextView score1 = findViewById(R.id.score1TextView);
-        TextView score2 = findViewById(R.id.score2TextView);
-        TextView score3 = findViewById(R.id.score3TextView);
+        setScoreViews(0,0,0,0);
 
-        score0.setText(String.valueOf(0));
-        score1.setText(String.valueOf(0));
-        score2.setText(String.valueOf(0));
-        score3.setText(String.valueOf(0));
-
+        //Wenn bereits Stats vorhanden dann anzeigen
         if(!game.getRoundStats().isEmpty()){
             displayStats();
         }
@@ -101,7 +98,7 @@ public class GameActivity extends AppCompatActivity {
 
                 //Liste an Spielern
                 final String[] items = new String[]{
-                  game.getPlayer0().getName(),
+                        game.getPlayer0().getName(),
                         game.getPlayer1().getName(),
                         game.getPlayer2().getName(),
                         game.getPlayer3().getName(),
@@ -145,14 +142,14 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         //Anzahl ausgewählter Spieler bestimmen
-                        int counter = 0;
+                        int anzSelectedPlayers = 0;
                         for(int j = 0; j < 4; j++){
                             if(checkedItems[j]){
-                                counter++;
+                                anzSelectedPlayers++;
                             }
                         }
                         //Wenn nicht 1 oder 2 Spieler ausgewählt sind Toast ausgeben und return
-                        if(counter != 1 && counter != 2){
+                        if(anzSelectedPlayers != 1 && anzSelectedPlayers != 2){
                             Toast.makeText(GameActivity.this, "Es können nur 1 oder 2 Spieler gewinnen", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -160,18 +157,21 @@ public class GameActivity extends AppCompatActivity {
                         winnerAlertDialog.dismiss();
 
                         //Neuen Dialog zum Wählen der Punktzahl Builden
-                        final AlertDialog.Builder pointsDialog = new AlertDialog.Builder(GameActivity.this);
+                        final AlertDialog.Builder numberPickerDialogBuilder = new AlertDialog.Builder(GameActivity.this);
 
                         //NumberPicker erstellen um Auswahl zu ermöglichen
                         final NumberPicker numberPicker = new NumberPicker(GameActivity.this);
-                        numberPicker.setMaxValue(50);
-                        numberPicker.setMinValue(0);
-
-                        pointsDialog.setView(numberPicker);
-
-                        pointsDialog.setNegativeButton("Abbruch",null);
-
-                        pointsDialog.setPositiveButton("Eintragen",new DialogInterface.OnClickListener() {
+                        numberPicker.setMaxValue(MAX_VALUE_NUMBERPICKER);
+                        numberPicker.setMinValue(MIN_VALUE_NUMBERPICKER);
+                        
+                        //NumberPicker als Dialog setzen
+                        numberPickerDialogBuilder.setView(numberPicker);
+                        
+                        //Abbruch Button hinzufügen
+                        numberPickerDialogBuilder.setNegativeButton("Abbruch",null);
+                        
+                        //Cofig Button zum Eintagen der Punkte
+                        numberPickerDialogBuilder.setPositiveButton("Eintragen",new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -195,11 +195,14 @@ public class GameActivity extends AppCompatActivity {
                                 if(!checkedItems[3]){
                                     p3 = -p3;
                                 }
+
+                                //*****BÖCKE BÖCKE BÖCKE***********
                                 if(checkedItems[4]){
-                                    bock = 3;
+                                    bock += BOCK_ROUND_COUNT;
                                     Log.d("Böcke","Böcke resettet");
                                 }else{
                                     if(!game.getRoundStats().isEmpty()){
+                                        //Wenn die anz an BockRoundsleft der vorherigen runde > 0 ist, dann -1
                                         if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() > 0){
                                             bock = game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() - 1;
                                             Log.d("Böcke","Böcke--: " + bock);
@@ -208,26 +211,46 @@ public class GameActivity extends AppCompatActivity {
 
                                 }
 
+                                //Anzeige vom Punktestand anpassen wenn bockrunde
+                                if(bock > 0){
+                                    p0 *= BOCK_ROUND_MULTIPLIER;
+                                    p1 *= BOCK_ROUND_MULTIPLIER;
+                                    p2 *= BOCK_ROUND_MULTIPLIER;
+                                    p3 *= BOCK_ROUND_MULTIPLIER;
+                                }
+                                //END********* BÖCKE BÖCKE BÖCKE**********
 
+
+                                //******* SOLO SOLO SOLO ********
+                                if(checkForSoloWin(checkedItems)){
+                                    if(checkedItems[0]){
+                                        p0 *= SOLO_ROUND_MULTIPLIER;
+                                    }
+                                    if(checkedItems[1]){
+                                        p1 *= SOLO_ROUND_MULTIPLIER;
+                                    }
+                                    if(checkedItems[2]){
+                                        p2 *= SOLO_ROUND_MULTIPLIER;
+                                    }
+                                    if(checkedItems[3]){
+                                        p3 *= SOLO_ROUND_MULTIPLIER;
+                                    }
+                                }
+                                //END ********* SOLO SOLO SOLO ********
 
                                 insertStats(p0,p1,p2,p3,bock,game.getRoundStats().size());
-                                //Anzeige vom Punktestand anpassen
-                                if(bock > 0){
-                                    p0 *= 2;
-                                    p1 *= 2;
-                                    p2 *= 2;
-                                    p3 *= 2;
-                                }
                                 updateScore(p0,p1,p2,p3);
-
+                                
+                                //RoundStats Objekt erstellen und in Liste vom Game hinzufügen
                                 RoundStats thisRound = new RoundStats(checkedItems[0],checkedItems[1],checkedItems[2],checkedItems[3],checkForSoloWin(checkedItems),points,bock);
 
                                 game.getRoundStats().add(thisRound);
 
                             }
                         });
-
-                        pointsDialog.show();
+                        
+                        //Dialog anzeigen
+                        numberPickerDialogBuilder.show();
                     }
                 });
 
@@ -246,49 +269,63 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    //Init
+    //Wird aufgerufen wenn bereits stats für das Game existieren
+    //muss sich selbst um berechnung kümmern von wer +/- bekommt
+    //multiplikatoren für bock und solorunden anwenden
     private void displayStats(){
         for(int i = 0 ; i < game.getRoundStats().size();i++){
-            int points0 = game.getRoundStats().get(i).getPoints();
-            int points1 = game.getRoundStats().get(i).getPoints();
-            int points2 = game.getRoundStats().get(i).getPoints();
-            int points3 = game.getRoundStats().get(i).getPoints();
 
-            if(!game.getRoundStats().get(i).isIsplayer0win()){
+            RoundStats currStats = game.getRoundStats().get(i);
+
+            int points0 = currStats.getPoints();
+            int points1 = currStats.getPoints();
+            int points2 = currStats.getPoints();
+            int points3 = currStats.getPoints();
+
+            if(!currStats.isIsplayer0win()){
                 points0 = -points0;
             }
-            if(!game.getRoundStats().get(i).isIsplayer1win()){
+            if(!currStats.isIsplayer1win()){
                 points1 = -points1;
             }
-            if(!game.getRoundStats().get(i).isIsplayer2win()){
+            if(!currStats.isIsplayer2win()){
                 points2 = -points2;
             }
-            if(!game.getRoundStats().get(i).isIsplayer3win()){
+            if(!currStats.isIsplayer3win()){
                 points3 = -points3;
             }
+            
+            //BÖCKE
+            if(currStats.isBockRound()){
+                points0 *= BOCK_ROUND_MULTIPLIER;
+                points1 *= BOCK_ROUND_MULTIPLIER;
+                points2 *= BOCK_ROUND_MULTIPLIER;
+                points3 *= BOCK_ROUND_MULTIPLIER;
+            }
+            //SOLOS
+            if(currStats.isSoloWin()){
+                if(currStats.isIsplayer0win()){
+                    points0 *= SOLO_ROUND_MULTIPLIER;
+                }
+                if(currStats.isIsplayer1win()){
+                    points1 *= SOLO_ROUND_MULTIPLIER;
+                }
+                if(currStats.isIsplayer2win()){
+                    points2 *= SOLO_ROUND_MULTIPLIER;
+                }
+                if(currStats.isIsplayer3win()){
+                    points3 *= SOLO_ROUND_MULTIPLIER;
+                }
+            }
 
-            insertStats(points0,points1,points2,points3,game.getRoundStats().get(i).getBockRoundsleft(),i);
+            insertStats(points0,points1,points2,points3,currStats.getBockRoundsleft(),i);
             updateScore(points0,points1,points2,points3);
         }
     }
 
-
-
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //Nur schreiben wenn Game nicht dirty
-        if(!GameController.isGameDirty(game)){
-            gameController.writeToJSON(GameActivity.this);
-        }
-
-    }
-
     /*
-        funzt nur wenn max 2 spieler gewinnen können
-         */
+    funzt nur wenn max 2 spieler gewinnen können
+     */
     private boolean checkForSoloWin(boolean[] checkedPlayers){
         boolean isSoloWin = false;
         if(checkedPlayers[0]){
@@ -308,6 +345,7 @@ public class GameActivity extends AppCompatActivity {
 
     /*
     Updated die Punkteanzeige mit den übergebenen Werten
+    rechnet punkte einfach auf momentanen stand drauf
      */
     private void updateScore(int points0,int points1, int points2, int points3){
         //Get ScoreViews und Update den Angezeigten Score
@@ -335,6 +373,11 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    /*
+    fügt pointsX in tabelle ein
+    makiert bockrunden gelb
+    schreibt rundenNr vor Zeile
+     */
     private void insertStats(int points0,int points1, int points2, int points3, int countBockRounds,int roundNr){
 
 
@@ -344,26 +387,26 @@ public class GameActivity extends AppCompatActivity {
         //Neue TableRow erstellen welche dem Table hinzugefügt wird
         TableRow toAdd = new TableRow(this);
 
-        //Neue TextViews erstellen mit den jeweiligen Punktzaheln
+        //Neue TextViews erstellen
         TextView tv0 = new TextView(this);
         TextView tv1 = new TextView(this);
         TextView tv2 = new TextView(this);
         TextView tv3 = new TextView(this);
-        //Bei bockrunden anzahl verdoppeln
+
+        //Bei bockrunden Text gelb färben
         if(countBockRounds > 0){
-            points0 *= 2;
-            points1 *= 2;
-            points2 *= 2;
-            points3 *= 2;
             tv0.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
             tv1.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
             tv2.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
             tv3.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
         }
+
+        //Punktestand setzten
         tv0.setText(String.valueOf(points0));
         tv1.setText(String.valueOf(points1));
         tv2.setText(String.valueOf(points2));
         tv3.setText(String.valueOf(points3));
+
 
         tv0.setTextSize(24);
         tv1.setTextSize(24);
@@ -401,6 +444,48 @@ public class GameActivity extends AppCompatActivity {
         statsTable.addView(toAdd);
     }
 
+
+    /*
+    Displays Names of Players with game.getPlayerX().getName()
+     */
+    private void displayPlayerNames(){
+        TextView p0name = findViewById(R.id.player0TV);
+        TextView p1name = findViewById(R.id.player1TV);
+        TextView p2name = findViewById(R.id.player2TV);
+        TextView p3name = findViewById(R.id.player3TV);
+
+        p0name.setText(game.getPlayer0().getName());
+        p1name.setText(game.getPlayer1().getName());
+        p2name.setText(game.getPlayer2().getName());
+        p3name.setText(game.getPlayer3().getName());
+    }
+
+    /*
+    sets the score views to given numbers
+     */
+    private void setScoreViews(int score0, int score1, int score2, int score3){
+        TextView score0TV = findViewById(R.id.score0TextView);
+        TextView score1TV = findViewById(R.id.score1TextView);
+        TextView score2TV = findViewById(R.id.score2TextView);
+        TextView score3TV = findViewById(R.id.score3TextView);
+
+        score0TV.setText(String.valueOf(score0));
+        score1TV.setText(String.valueOf(score1));
+        score2TV.setText(String.valueOf(score2));
+        score3TV.setText(String.valueOf(score3));
+    }
+    
+    //Wenn Activity beendet wird und Game nicht Dirty ist, dann abspeichern in JSON
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Nur schreiben wenn Game nicht dirty
+        if(!GameController.isGameDirty(game)){
+            gameController.writeToJSON(GameActivity.this);
+        }
+
+    }
+    
     //Für Toolbar damit beim drücken vom Backbutton zurückgesprungen wird
     @Override
     public boolean onSupportNavigateUp() {

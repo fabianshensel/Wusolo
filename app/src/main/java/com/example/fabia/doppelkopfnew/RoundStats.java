@@ -23,6 +23,13 @@ public class RoundStats {
         this.bockRoundsleft = bockRoundsleft;
     }
 
+    public boolean isBockRound(){
+        if(bockRoundsleft > 0){
+            return true;
+        }
+        return false;
+    }
+
     public boolean isIsplayer0win() {
         return isplayer0win;
     }
