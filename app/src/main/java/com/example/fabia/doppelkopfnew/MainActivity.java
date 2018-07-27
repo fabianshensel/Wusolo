@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_tops_flops:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new TopsAndFlopsFragment()).commit();
                 mDrawerLayout.closeDrawers();
+                //Titel in ActionBar ändern
+                setTitle("Tops und Flops");
                 break;
 
             case R.id.nav_profiles:
@@ -78,11 +80,15 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,pFrag).commit();
                 //Damit es schön aussieht den MenuDrawer schließen
                 mDrawerLayout.closeDrawers();
+                //Titel in ActionBar ändern
+                setTitle("Profile");
                 break;
 
             case R.id.nav_lastgame:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new LastGameFragment()).commit();
                 mDrawerLayout.closeDrawers();
+                //Titel in ActionBar ändern
+                setTitle("Letztes Spiel");
                 break;
 
             case R.id.nav_games_history:
@@ -90,16 +96,22 @@ public class MainActivity extends AppCompatActivity {
                 gameFrag.setContext(this);
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,gameFrag).commit();
                 mDrawerLayout.closeDrawers();
+                //Titel in ActionBar ändern
+                setTitle("Spiele");
                 break;
 
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new SettingsFragment()).commit();
                 mDrawerLayout.closeDrawers();
+                //Titel in ActionBar ändern
+                setTitle("Einstellungen");
                 break;
 
             case R.id.nav_about_us:
                 getSupportFragmentManager().beginTransaction().replace(R.id.myFrameLayout,new AboutUsFragment()).commit();
                 mDrawerLayout.closeDrawers();
+                //Titel in ActionBar ändern
+                setTitle("Über uns");
                 break;
         }
         return true;

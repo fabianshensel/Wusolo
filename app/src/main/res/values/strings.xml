@@ -15,5 +15,6 @@
     <string name="wins">Wins</string>
     <string name="loss">Loses</string>
     <string name="profile">Profile</string>
+    <string name="spiele">Spiele</string>
 
 </resources>
