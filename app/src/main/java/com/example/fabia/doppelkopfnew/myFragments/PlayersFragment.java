@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -110,7 +111,7 @@ public class PlayersFragment extends Fragment {
                 }
             });
 
-            //Fügt dem Button noch ein Bild hinzu
+
             Bitmap bit = PictureStorageHelper.loadImageFromStorage(pControl.getPlayerList().get(i).getImagepath(),pControl.getPlayerList().get(i).getName() + ".jpg");
 
             BitmapDrawable a = new BitmapDrawable(getResources(),bit);

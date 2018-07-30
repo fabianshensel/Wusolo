@@ -10,8 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.fabia.doppelkopfnew.FirebaseHelper;
 import com.example.fabia.doppelkopfnew.GameActivity;
+import com.example.fabia.doppelkopfnew.Player;
+import com.example.fabia.doppelkopfnew.PlayerController;
 import com.example.fabia.doppelkopfnew.R;
+
+import java.util.ArrayList;
 
 public class SettingsFragment extends Fragment {
 
@@ -45,6 +50,30 @@ public class SettingsFragment extends Fragment {
 
                 GameActivity.MAX_VALUE_NUMBERPICKER = nr;
 
+            }
+        });
+
+
+        Button uploadbtn = fragmentView.findViewById(R.id.uploadToFirebaseButton);
+        uploadbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseHelper helper = new FirebaseHelper();
+                PlayerController controller = new PlayerController(new ArrayList<Player>());
+                controller.readFromJSON(fragmentView.getContext());
+
+                helper.storePlayers(controller.getPlayerList(),fragmentView.getContext());
+            }
+        });
+
+
+        Button loadbtn = fragmentView.findViewById(R.id.downloadFromFirebaseButton);
+
+        loadbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseHelper helper = new FirebaseHelper();
+                helper.getPlayers(fragmentView.getContext());
             }
         });
 

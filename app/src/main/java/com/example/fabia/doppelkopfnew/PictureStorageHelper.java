@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +15,34 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PictureStorageHelper {
+
+    //Deletes the Pictures of Players who are nolonger in PlayerList
+    static public void cleanUpStorage(ArrayList<Player> players){
+        //Get everyFile of Directory
+        File folder = new File("/storage/emulated/0/Android/data/com.example.fabia.doppelkopfnew/files/Documents/myFiles");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].exists()){
+                String fileName = listOfFiles[i].getName();
+                if(fileName.endsWith(".jpg")){
+                    //cut filename to equal playernames
+                    fileName = fileName.substring(0,fileName.lastIndexOf("."));
+                    Log.d("Clean Up Storage",fileName);
+                    boolean isOutdated = true;
+                    //if there is no player in list with same name as file -> delete file
+                    for(Player p : players){
+                        if(p.getName().equals(fileName)){
+                            isOutdated = false;
+                        }
+                    }
+                    if(isOutdated){
+                      listOfFiles[i].delete();
+                    }
+                }
+            }
+        }
+    }
 
     static public String saveToInternalStorage(Bitmap bitmapImage, Context c , String imageName){
         ContextWrapper cw = new ContextWrapper(c);

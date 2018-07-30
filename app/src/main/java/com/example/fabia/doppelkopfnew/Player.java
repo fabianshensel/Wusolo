@@ -4,6 +4,8 @@ import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.File;
+
 public class Player implements Parcelable {
     private String name;
     private String comment;
@@ -14,6 +16,10 @@ public class Player implements Parcelable {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public Player(){
+        //needed for Firebase
     }
 
     public Player(String name, String comment, String imagepath) {

@@ -35,8 +35,20 @@ public class MainActivity extends AppCompatActivity {
         playerController = new PlayerController(new ArrayList<Player>());
         playerController.readFromJSON(this);
 
+        //Deletes the Pictures of Players who are nolonger in PlayerList
+        PictureStorageHelper.cleanUpStorage(playerController.getPlayerList());
 
 
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        playerController.readFromJSON(this);
+        //Deletes the Pictures of Players who are nolonger in PlayerList
+        PictureStorageHelper.cleanUpStorage(playerController.getPlayerList());
     }
 
     private void configureMenu(){
