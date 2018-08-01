@@ -2,6 +2,7 @@ package com.example.fabia.doppelkopfnew;
 
 import android.content.Context;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -47,6 +48,30 @@ public class PlayerController {
     }
 
 
+    //Fügt Spieler aus playerList und lokaler Liste zusammen
+    //Hierbei werden Spieler mit doppeltem Namen aus playerList übernommen und lokale Spieler gelöscht
+
+    public void mergeWithList(ArrayList<Player> playerList, Context c){
+        //Damit playerListe aus Controller aktuell ist
+        this.readFromJSON(c);
+        //Liste mit allen Namen der Spieler aus playerList
+        ArrayList<String> names = new ArrayList<>();
+        //NamensListe erstellen
+        for(int i = 0; i < playerList.size();i++){
+            names.add(playerList.get(i).getName());
+        }
+        //Spieler die noch nicht in playerList sind hinzufügen wenn Name unique
+        for(Player p : this.getPlayerList()){
+            if(!names.contains(p.getName())){
+                playerList.add(p);
+            }else{
+                Log.d("LIST MERGING","Doppelter Name: " + p.getName());
+            }
+        }
+
+        this.setPlayerList(playerList);
+        this.writeToJSON(c);
+    }
 
     public ArrayList<Player> getPlayerList() {
         return playerList;

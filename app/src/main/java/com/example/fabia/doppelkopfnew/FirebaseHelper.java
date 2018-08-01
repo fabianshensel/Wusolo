@@ -2,6 +2,8 @@ package com.example.fabia.doppelkopfnew;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -32,12 +34,12 @@ public class FirebaseHelper {
     private static final String KEY_COMMENT = "comment";
     private static final String KEY_PICTURE_PATH = "imagepath";
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private CollectionReference playerCollection = db.collection("Players");
+    private static CollectionReference playerCollection = db.collection("Players");
 
     //schreibt alle Player aus playerList in Datenbank außer Player die bereits mit Namen in DB existieren
-    public void storePlayers(final ArrayList<Player> playerList, final Context c) {
+    public static void storePlayers(final ArrayList<Player> playerList, final Context c) {
 
         final ArrayList<String> dbList = new ArrayList<>();
 
@@ -95,27 +97,22 @@ public class FirebaseHelper {
 
     }
 
-    //Überschreibt lokale Spielerdaten
-    public ArrayList<Player> getPlayers(final Context c) {
+    public static void getPlayers(final Context c) {
 
-        final PlayerController playerController = new PlayerController(new ArrayList<Player>());
+        final ArrayList<Player> players = new ArrayList<>();
 
         //Alle Player aus Datenbank holen
         playerCollection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                ArrayList<Player> players = new ArrayList<>();
-
                 //Aus jedem Document ein Player Objekt erstellen
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     Player p = doc.toObject(Player.class);
                     players.add(p);
                 }
-
-                Toast.makeText(c, "Es wurden " + playerController.getPlayerList().size() + " Spieler heruntergeladen", Toast.LENGTH_SHORT).show();
-                playerController.setPlayerList(players);
-                playerController.writeToJSON(c);
+                PlayerController playerController = new PlayerController(new ArrayList<Player>());
+                playerController.mergeWithList(players,c);
+                Toast.makeText(c, "Es wurden " + players.size() + " Spieler heruntergeladen", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -124,8 +121,23 @@ public class FirebaseHelper {
                 Log.d(TAG, e.toString());
             }
         });
+    }
 
-        return playerController.getPlayerList();
+
+    //Copy Pasta aus StackOverflow
+    public static boolean isNetworkAvailable(Context con) {
+        try {
+            ConnectivityManager cm = (ConnectivityManager) con
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+            if (networkInfo != null && networkInfo.isConnected()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

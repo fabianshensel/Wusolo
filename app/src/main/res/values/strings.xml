@@ -17,4 +17,7 @@
     <string name="profile">Profile</string>
     <string name="spiele">Spiele</string>
 
+    <string name="settings_heading_general"><u>Allgemein</u></string>
+    <string name="settings_heading_database"><u>Datenbank</u></string>
+
 </resources>

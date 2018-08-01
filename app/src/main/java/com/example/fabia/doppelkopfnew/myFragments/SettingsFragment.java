@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.fabia.doppelkopfnew.FirebaseHelper;
 import com.example.fabia.doppelkopfnew.GameActivity;
@@ -55,25 +56,29 @@ public class SettingsFragment extends Fragment {
 
 
         Button uploadbtn = fragmentView.findViewById(R.id.uploadToFirebaseButton);
+        Button loadbtn = fragmentView.findViewById(R.id.downloadFromFirebaseButton);
+
         uploadbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseHelper helper = new FirebaseHelper();
+
                 PlayerController controller = new PlayerController(new ArrayList<Player>());
                 controller.readFromJSON(fragmentView.getContext());
 
-                helper.storePlayers(controller.getPlayerList(),fragmentView.getContext());
+                FirebaseHelper.storePlayers(controller.getPlayerList(),fragmentView.getContext());
             }
         });
 
 
-        Button loadbtn = fragmentView.findViewById(R.id.downloadFromFirebaseButton);
-
         loadbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseHelper helper = new FirebaseHelper();
-                helper.getPlayers(fragmentView.getContext());
+                if(FirebaseHelper.isNetworkAvailable(fragmentView.getContext())){
+                    FirebaseHelper.getPlayers(fragmentView.getContext());
+                }else{
+                    Toast.makeText(fragmentView.getContext(), "Kein Internet Zugriff", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
