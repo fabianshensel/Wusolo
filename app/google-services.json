@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "884727748239",
+    "firebase_url": "https://doppelkopf-1e406.firebaseio.com",
+    "project_id": "doppelkopf-1e406",
+    "storage_bucket": "doppelkopf-1e406.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884727748239:android:4f283f5721001c89",
+        "android_client_info": {
+          "package_name": "com.example.fabia.doppelkopfnew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884727748239-0o4rghs4icbltvuuv5hslhe720fpr74c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fabia.doppelkopfnew",
+            "certificate_hash": "49579d80e8b9266a426c156567939fa8d048210a"
+          }
+        },
+        {
+          "client_id": "884727748239-u73b8kjj8gbt84s27ft0384kk9ib75kv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGzU6EYtQkam2L6bzG-M0xbZ9ZzAvO69U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884727748239-u73b8kjj8gbt84s27ft0384kk9ib75kv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
