@@ -451,7 +451,7 @@ public class GameActivity extends AppCompatActivity {
 
         //Config für rundenZähler
         TextView roundCount = new TextView(this);
-        roundCount.setText(String.valueOf(roundNr));
+        roundCount.setText(String.valueOf(roundNr + 1));
         roundCount.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         roundCount.setTextSize(20);
         roundCount.setTextColor(Color.BLACK);
