@@ -214,10 +214,9 @@ public class GameActivity extends AppCompatActivity {
                                 //*****BÖCKE BÖCKE BÖCKE***********
                                 if(checkedItems[4]){
                                     if(!game.getRoundStats().isEmpty()){
-
-                                    } else if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() == 0){
+                                        if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() == 0){
                                         isNewBoecke = true;
-                                    }
+                                    }}
                                     bock += BOCK_ROUND_COUNT;
                                     Log.d("Böcke","Böcke resettet");
 
@@ -402,6 +401,7 @@ public class GameActivity extends AppCompatActivity {
     makiert bockrunden gelb
     schreibt rundenNr vor Zeile
      */
+
     private void insertStats(int points0,int points1, int points2, int points3, int countBockRounds,int roundNr, boolean isBockNew){
 
 
@@ -517,3 +517,4 @@ public class GameActivity extends AppCompatActivity {
         return true;
     }
 }
+
