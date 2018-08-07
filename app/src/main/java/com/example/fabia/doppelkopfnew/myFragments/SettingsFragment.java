@@ -39,7 +39,6 @@ public class SettingsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-
         final EditText maxPointsEditText = fragmentView.findViewById(R.id.settingsMaxPointsEditText);
         final EditText minPointsEditText = fragmentView.findViewById(R.id.settingsMinPointsEditText);
         maxPointsEditText.setHint(String.valueOf(GameActivity.MAX_VALUE_NUMBERPICKER));
@@ -49,15 +48,17 @@ public class SettingsFragment extends Fragment {
         tmpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String inputMax = maxPointsEditText.getText().toString();
-                String inputMin = minPointsEditText.getText().toString();
-
-                int nrMax = Integer.parseInt(inputMax);
-                int nrMin = Integer.parseInt(inputMin) * -1;
-
-                GameActivity.MAX_VALUE_NUMBERPICKER = nrMax;
-                GameActivity.MIN_VALUE_NUMBERPICKER = nrMin;
-
+                try {
+                    String inputMax = maxPointsEditText.getText().toString();
+                    String inputMin = minPointsEditText.getText().toString();
+                    int nrMax = Integer.parseInt(inputMax);
+                    int nrMin = Integer.parseInt(inputMin) * -1;
+                    GameActivity.MAX_VALUE_NUMBERPICKER = nrMax;
+                    GameActivity.MIN_VALUE_NUMBERPICKER = nrMin;
+                    Toast.makeText(fragmentView.getContext(), "Gespeichert", Toast.LENGTH_SHORT).show();
+                } catch (NumberFormatException e){
+                    Toast.makeText(fragmentView.getContext(), "Maximalwert und Minimalwert erforderlich", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -213,7 +213,9 @@ public class GameActivity extends AppCompatActivity {
 
                                 //*****BÖCKE BÖCKE BÖCKE***********
                                 if(checkedItems[4]){
-                                    if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() == 0){
+                                    if(!game.getRoundStats().isEmpty()){
+
+                                    } else if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() == 0){
                                         isNewBoecke = true;
                                     }
                                     bock += BOCK_ROUND_COUNT;
@@ -340,7 +342,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-            insertStats(points0,points1,points2,points3,currStats.getBockRoundsleft(),i, isNewBock);
+            insertStats(points0,points1,points2,points3,currStats.getBockRoundsleft(),i+1, isNewBock);
             updateScore(points0,points1,points2,points3);
         }
     }

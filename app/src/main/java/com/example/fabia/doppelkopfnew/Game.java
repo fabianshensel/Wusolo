@@ -1,7 +1,10 @@
 package com.example.fabia.doppelkopfnew;
 
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 public class Game {
 
@@ -12,6 +15,14 @@ public class Game {
     private Player player2;
     private Player player3;
 
+    private Player winner;
+    private Player loser;
+
+    private int gewinnPunktZahl;
+    private int verlorenPunktzahl;
+
+    private Date date;
+
     private ArrayList<RoundStats> roundStats;
 
     public Game(String name, Player player0, Player player1, Player player2, Player player3, ArrayList<RoundStats> roundStats) {
@@ -21,6 +32,7 @@ public class Game {
         this.player2 = player2;
         this.player3 = player3;
         this.roundStats = roundStats;
+        this.date = new Date();
     }
 
     /*
@@ -40,6 +52,61 @@ public class Game {
             return 3;
         }
         return -1;
+    }
+
+    public void generateWinnerAndLoser() {
+        int pointsForPlayer0 = 0;
+        int pointsForPlayer1 = 0;
+        int pointsForPlayer2 = 0;
+        int pointsForPlayer3 = 0;
+
+    //Ermittle Endpunktzahlen
+        for (RoundStats roundStat : roundStats) {
+
+            int points = roundStat.getPoints();
+            if (roundStat.isIsplayer0win()) {
+                pointsForPlayer0 += points;
+            }
+            if (roundStat.isIsplayer1win()) {
+                pointsForPlayer1 += points;
+            }
+            if (roundStat.isIsplayer2win()) {
+                pointsForPlayer2 += points;
+            }
+            if (roundStat.isIsplayer3win()) {
+                pointsForPlayer3 += points;
+            }
+        }
+
+        int[] points = {pointsForPlayer0, pointsForPlayer1, pointsForPlayer2, pointsForPlayer3};
+        Arrays.sort(points);
+
+        gewinnPunktZahl = points[0];
+        verlorenPunktzahl = points[3];
+
+        //Ermittle Genwinner
+        if (points[0] == pointsForPlayer0) {
+            winner = player0;
+        } else if (points[0] == pointsForPlayer1) {
+            winner = player1;
+        } else if (points[0] == pointsForPlayer2) {
+            winner = player2;
+        } else if (points[0] == pointsForPlayer3) {
+            winner = player3;
+        }
+        //Ermittle Verlierer
+        if (points[3] == pointsForPlayer0) {
+            loser = player0;
+        } else if (points[3] == pointsForPlayer1) {
+            loser = player1;
+        } else if (points[3] == pointsForPlayer2) {
+            loser = player2;
+        } else if (points[3] == pointsForPlayer3) {
+            loser = player3;
+        }
+
+
+
     }
 
     public String getName() {
@@ -89,4 +156,15 @@ public class Game {
     public void setRoundStats(ArrayList<RoundStats> roundStats) {
         this.roundStats = roundStats;
     }
+
+    public int getGesamtAnzahlRunden(){
+        return roundStats.size();
+    }
+
+    public SimpleDateFormat getDate() {
+        SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        simpleDate.format(date);
+    return simpleDate;
+    }
 }
+
