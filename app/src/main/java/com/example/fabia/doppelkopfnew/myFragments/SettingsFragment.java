@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.fabia.doppelkopfnew.FirebaseHelper;
+import com.example.fabia.doppelkopfnew.Game;
 import com.example.fabia.doppelkopfnew.GameActivity;
 import com.example.fabia.doppelkopfnew.Player;
 import com.example.fabia.doppelkopfnew.PlayerController;
@@ -40,16 +41,22 @@ public class SettingsFragment extends Fragment {
 
 
         final EditText maxPointsEditText = fragmentView.findViewById(R.id.settingsMaxPointsEditText);
+        final EditText minPointsEditText = fragmentView.findViewById(R.id.settingsMinPointsEditText);
         maxPointsEditText.setHint(String.valueOf(GameActivity.MAX_VALUE_NUMBERPICKER));
+        minPointsEditText.setHint(String.valueOf(GameActivity.MIN_VALUE_NUMBERPICKER));
 
         Button tmpBtn = fragmentView.findViewById(R.id.tmpApplyChangesbutton);
         tmpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String input = maxPointsEditText.getText().toString();
-                int nr = Integer.parseInt(input);
+                String inputMax = maxPointsEditText.getText().toString();
+                String inputMin = minPointsEditText.getText().toString();
 
-                GameActivity.MAX_VALUE_NUMBERPICKER = nr;
+                int nrMax = Integer.parseInt(inputMax);
+                int nrMin = Integer.parseInt(inputMin) * -1;
+
+                GameActivity.MAX_VALUE_NUMBERPICKER = nrMax;
+                GameActivity.MIN_VALUE_NUMBERPICKER = nrMin;
 
             }
         });

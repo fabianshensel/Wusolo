@@ -9,11 +9,14 @@ public class RoundStats {
     private boolean isplayer3win;
 
     private boolean isSoloWin;
+    private boolean isBock;
+
+    private boolean isNewBoecke;
 
     private int bockRoundsleft;
     private int points;
 
-    public RoundStats(boolean isplayer0win, boolean isplayer1win, boolean isplayer2win, boolean isplayer3win, boolean isSoloWin, int points, int bockRoundsleft) {
+    public RoundStats(boolean isplayer0win, boolean isplayer1win, boolean isplayer2win, boolean isplayer3win, boolean isSoloWin, int points, int bockRoundsleft, boolean isNewBoecke) {
         this.isplayer0win = isplayer0win;
         this.isplayer1win = isplayer1win;
         this.isplayer2win = isplayer2win;
@@ -21,14 +24,9 @@ public class RoundStats {
         this.isSoloWin = isSoloWin;
         this.points = points;
         this.bockRoundsleft = bockRoundsleft;
+        this.isNewBoecke = isNewBoecke;
     }
 
-    public boolean isBockRound(){
-        if(bockRoundsleft > 0){
-            return true;
-        }
-        return false;
-    }
 
     public boolean isIsplayer0win() {
         return isplayer0win;
@@ -84,5 +82,22 @@ public class RoundStats {
 
     public void setBockRoundsleft(int bockRoundsleft) {
         this.bockRoundsleft = bockRoundsleft;
+    }
+
+    public void setBock(boolean bock) {
+        isBock = bock;
+    }
+
+    public void setNewBoecke(boolean newBoecke) {
+        isNewBoecke = newBoecke;
+    }
+
+    public boolean isBock() {
+
+        return isBock;
+    }
+
+    public boolean isNewBoecke() {
+        return isNewBoecke;
     }
 }

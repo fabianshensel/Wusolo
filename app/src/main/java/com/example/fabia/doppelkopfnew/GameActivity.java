@@ -37,22 +37,26 @@ public class GameActivity extends AppCompatActivity {
     //defines how long BockRounds last
     public static int BOCK_ROUND_COUNT = 4;
     //defines how much BockRounds increase Score
-    public static int BOCK_ROUND_MULTIPLIER = 2;
+    public static int BOCK_ROUND_MULTIPLIER = 1;
     //defines how much SoloRounds increase Score for Winner
     public static int SOLO_ROUND_MULTIPLIER = 3;
     //defines min Value for NumberPicker
-    public static int MIN_VALUE_NUMBERPICKER = 0;
+    public static int MIN_VALUE_NUMBERPICKER = -50;
     //defines max Value for NumberPicker
     public static int MAX_VALUE_NUMBERPICKER = 50;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+
         //Create Backbutton on Toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
 
         //Get Selected Game
         gameController = new GameController(new ArrayList<Game>());
@@ -161,8 +165,16 @@ public class GameActivity extends AppCompatActivity {
 
                         //NumberPicker erstellen um Auswahl zu ermöglichen
                         final NumberPicker numberPicker = new NumberPicker(GameActivity.this);
-                        numberPicker.setMaxValue(MAX_VALUE_NUMBERPICKER);
-                        numberPicker.setMinValue(MIN_VALUE_NUMBERPICKER);
+                        numberPicker.setMaxValue(0);
+
+                        numberPicker.setMaxValue(MAX_VALUE_NUMBERPICKER-MIN_VALUE_NUMBERPICKER);
+                        numberPicker.setValue(0-MIN_VALUE_NUMBERPICKER);
+                        numberPicker.setFormatter(new NumberPicker.Formatter() {
+                            @Override
+                            public String format(int index) {
+                                return Integer.toString(index + MIN_VALUE_NUMBERPICKER);
+                            }
+                        });
                         
                         //NumberPicker als Dialog setzen
                         numberPickerDialogBuilder.setView(numberPicker);
@@ -175,8 +187,11 @@ public class GameActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
+                                //Hilfsboolean da erste Runde Böcke übersprungen werden soll
+                                boolean isNewBoecke = false;
+
                                 //Ausgewählte anzahl an Punkten holen und für Verlierer Anzahl Punkte invertieren
-                                int points = numberPicker.getValue();
+                                int points = numberPicker.getValue() + MIN_VALUE_NUMBERPICKER;
                                 int p0 = points;
                                 int p1 = points;
                                 int p2 = points;
@@ -198,9 +213,14 @@ public class GameActivity extends AppCompatActivity {
 
                                 //*****BÖCKE BÖCKE BÖCKE***********
                                 if(checkedItems[4]){
+                                    if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() == 0){
+                                        isNewBoecke = true;
+                                    }
                                     bock += BOCK_ROUND_COUNT;
                                     Log.d("Böcke","Böcke resettet");
+
                                 }else{
+                                    isNewBoecke = false;
                                     if(!game.getRoundStats().isEmpty()){
                                         //Wenn die anz an BockRoundsleft der vorherigen runde > 0 ist, dann -1
                                         if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() > 0){
@@ -236,13 +256,14 @@ public class GameActivity extends AppCompatActivity {
                                         p3 *= SOLO_ROUND_MULTIPLIER;
                                     }
                                 }
-                                //END ********* SOLO SOLO SOLO ********
+                                //END ********* SOLO SOLO SOLO *******
 
-                                insertStats(p0,p1,p2,p3,bock,game.getRoundStats().size());
+                                insertStats(p0,p1,p2,p3,bock,game.getRoundStats().size(), isNewBoecke);
                                 updateScore(p0,p1,p2,p3);
                                 
                                 //RoundStats Objekt erstellen und in Liste vom Game hinzufügen
-                                RoundStats thisRound = new RoundStats(checkedItems[0],checkedItems[1],checkedItems[2],checkedItems[3],checkForSoloWin(checkedItems),points,bock);
+
+                                RoundStats thisRound = new RoundStats(checkedItems[0],checkedItems[1],checkedItems[2],checkedItems[3],checkForSoloWin(checkedItems),points,bock,isNewBoecke);
 
                                 game.getRoundStats().add(thisRound);
 
@@ -260,6 +281,7 @@ public class GameActivity extends AppCompatActivity {
 
             }
         });
+
         //-----ENDE DIALOG ABLAUF FÜR EINGABE VON SPIELDATEN----
 
 
@@ -269,6 +291,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+
     //Wird aufgerufen wenn bereits stats für das Game existieren
     //muss sich selbst um berechnung kümmern von wer +/- bekommt
     //multiplikatoren für bock und solorunden anwenden
@@ -276,6 +299,8 @@ public class GameActivity extends AppCompatActivity {
         for(int i = 0 ; i < game.getRoundStats().size();i++){
 
             RoundStats currStats = game.getRoundStats().get(i);
+            boolean isbock = false;
+            boolean isNewBock = false;
 
             int points0 = currStats.getPoints();
             int points1 = currStats.getPoints();
@@ -294,14 +319,7 @@ public class GameActivity extends AppCompatActivity {
             if(!currStats.isIsplayer3win()){
                 points3 = -points3;
             }
-            
-            //BÖCKE
-            if(currStats.isBockRound()){
-                points0 *= BOCK_ROUND_MULTIPLIER;
-                points1 *= BOCK_ROUND_MULTIPLIER;
-                points2 *= BOCK_ROUND_MULTIPLIER;
-                points3 *= BOCK_ROUND_MULTIPLIER;
-            }
+
             //SOLOS
             if(currStats.isSoloWin()){
                 if(currStats.isIsplayer0win()){
@@ -317,8 +335,12 @@ public class GameActivity extends AppCompatActivity {
                     points3 *= SOLO_ROUND_MULTIPLIER;
                 }
             }
+            //checkt ob letzte Runde eine erste neue Bockrunde war
+            isNewBock = currStats.isNewBoecke();
 
-            insertStats(points0,points1,points2,points3,currStats.getBockRoundsleft(),i);
+
+
+            insertStats(points0,points1,points2,points3,currStats.getBockRoundsleft(),i, isNewBock);
             updateScore(points0,points1,points2,points3);
         }
     }
@@ -378,7 +400,7 @@ public class GameActivity extends AppCompatActivity {
     makiert bockrunden gelb
     schreibt rundenNr vor Zeile
      */
-    private void insertStats(int points0,int points1, int points2, int points3, int countBockRounds,int roundNr){
+    private void insertStats(int points0,int points1, int points2, int points3, int countBockRounds,int roundNr, boolean isBockNew){
 
 
         //StatsTable holen in den inserted wird
@@ -394,7 +416,7 @@ public class GameActivity extends AppCompatActivity {
         TextView tv3 = new TextView(this);
 
         //Bei bockrunden Text gelb färben
-        if(countBockRounds > 0){
+        if(countBockRounds > 0 && !isBockNew){
             tv0.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
             tv1.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));
             tv2.setTextColor(ContextCompat.getColor(this,R.color.yellowGoldy));

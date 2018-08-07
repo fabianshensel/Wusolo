@@ -30,12 +30,38 @@
         app:layout_constraintTop_toBottomOf="@+id/headingDatabaseTextView" />
 
     <EditText
-        android:id="@+id/settingsMaxPointsEditText"
-        android:layout_width="wrap_content"
+        android:id="@+id/settingsMinPointsEditText"
+        android:layout_width="162dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minPointsTextView" />
+
+    <TextView
+        android:id="@+id/minPointsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Minimale Punktzahl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.801"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headingGenerelTextView" />
+
+    <EditText
+        android:id="@+id/settingsMaxPointsEditText"
+        android:layout_width="161dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="number"
+        app:layout_constraintEnd_toStartOf="@+id/settingsMinPointsEditText"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maxPointsTextView" />
 
