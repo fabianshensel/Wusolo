@@ -1,38 +1,30 @@
 package com.example.fabia.doppelkopfnew;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.LayoutDirection;
 import android.util.Log;
-import android.util.Xml;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.xmlpull.v1.XmlPullParser;
-
-import java.io.File;
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
 
     private Game game;
     private GameController gameController;
+    private Context c;
 
     //defines how long BockRounds last
     public static int BOCK_ROUND_COUNT = 4;
@@ -44,6 +36,10 @@ public class GameActivity extends AppCompatActivity {
     public static int MIN_VALUE_NUMBERPICKER = -50;
     //defines max Value for NumberPicker
     public static int MAX_VALUE_NUMBERPICKER = 50;
+
+    public void setContext(Context c){
+        this.c = c;
+    }
 
 
     @Override
@@ -58,6 +54,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
+
         //Get Selected Game
         gameController = new GameController(new ArrayList<Game>());
         gameController.readFromJSON(GameActivity.this);
@@ -69,6 +66,18 @@ public class GameActivity extends AppCompatActivity {
             this.finish();
             return;
         }
+
+        //Create InfoButton für Spielinformationen
+        Button ButtonGameInfo = findViewById(R.id.GameInfoButton);
+
+        ButtonGameInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(c, GameInfoActivity.class);
+                intent.putExtra("Game",game);
+                startActivity(intent);
+            }
+        });
 
 
         //Display GameName
@@ -85,6 +94,8 @@ public class GameActivity extends AppCompatActivity {
         if(!game.getRoundStats().isEmpty()){
             displayStats();
         }
+
+
         
         //Get Enter Button
         Button enterButton = findViewById(R.id.enterPointsButton);
@@ -214,9 +225,10 @@ public class GameActivity extends AppCompatActivity {
                                 //*****BÖCKE BÖCKE BÖCKE***********
                                 if(checkedItems[4]){
                                     if(!game.getRoundStats().isEmpty()){
-                                        if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() == 0){
-                                        isNewBoecke = true;
-                                    }}
+                                        if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() == 0) {
+                                            isNewBoecke = true;
+                                        }
+                                    }
                                     bock += BOCK_ROUND_COUNT;
                                     Log.d("Böcke","Böcke resettet");
 

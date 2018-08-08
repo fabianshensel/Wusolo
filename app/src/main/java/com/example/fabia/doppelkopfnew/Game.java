@@ -1,12 +1,15 @@
 package com.example.fabia.doppelkopfnew;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class Game {
+public class Game implements Parcelable{
 
     private String name;
 
@@ -104,11 +107,62 @@ public class Game {
         } else if (points[3] == pointsForPlayer3) {
             loser = player3;
         }
-
-
-
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public Game(Parcel in){
+        String[] data = new String[3];
+        in.readStringArray(data);
+        this.name = data[0];
+        this.verlorenPunktzahl = Integer.parseInt(data[1]);
+        this.gewinnPunktZahl = Integer.parseInt(data[2]);
+        this.player0.setName(data[3]);
+        this.player1.setName(data[4]);
+        this.player2.setName(data[5]);
+        this.player3.setName(data[6]);
+        this.winner.setName(data[7]);
+        this.loser.setName(data[8]);
+        //this.date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(data[9]);
+
+
+        //noch kein plan wie das laufen soll
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        @Override
+        public Game createFromParcel(Parcel in) {
+            return new Game(in);
+        }
+
+        @Override
+        public Game[] newArray(int size) {
+            return new Game[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest,int flags){
+        String verlorenString = String.valueOf(verlorenPunktzahl);
+        String gewonnenString = String.valueOf(gewinnPunktZahl);
+        String s[] = new String[]
+                {
+                        this.name,
+                        verlorenString,
+                        gewonnenString,
+                        this.player0.getName(),
+                        this.player1.getName(),
+                        this.player2.getName(),
+                        this.player3.getName(),
+                        this.loser.getName(),
+                        this.winner.getName(),
+
+                };
+        dest.writeStringArray(s);
+    }
     public String getName() {
         return name;
     }
@@ -165,6 +219,22 @@ public class Game {
         SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         simpleDate.format(date);
     return simpleDate;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public Player getLoser() {
+        return loser;
+    }
+
+    public int getGewinnPunktZahl() {
+        return gewinnPunktZahl;
+    }
+
+    public int getVerlorenPunktzahl() {
+        return verlorenPunktzahl;
     }
 }
 
