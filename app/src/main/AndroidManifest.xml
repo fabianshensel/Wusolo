@@ -35,8 +35,15 @@
             android:theme="@style/ToolbarTheme" />
         <activity
             android:name=".AddGameActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ToolbarTheme" />
-        <activity android:name=".GameActivity"
+        <activity
+            android:name=".GameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ToolbarTheme" />
+        <activity
+            android:name=".GameInfoActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ToolbarTheme" />
     </application>
 

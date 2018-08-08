@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
     private PlayerController playerController;
-
+/*
     private LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
     private LocationListener locationListener = new LocationListener() {
         @Override
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

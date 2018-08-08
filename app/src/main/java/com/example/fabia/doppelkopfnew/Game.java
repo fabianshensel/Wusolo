@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -24,7 +26,9 @@ public class Game implements Parcelable{
     private int gewinnPunktZahl;
     private int verlorenPunktzahl;
 
-    private Date date;
+    SimpleDateFormat simpleDate;
+
+    DateTimeFormatter dtf;
 
     private ArrayList<RoundStats> roundStats;
 
@@ -34,8 +38,9 @@ public class Game implements Parcelable{
         this.player1 = player1;
         this.player2 = player2;
         this.player3 = player3;
-        this.roundStats = roundStats;
-        this.date = new Date();
+        LocalDateTime now = LocalDateTime.now();
+        dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        dtf.format(now);
     }
 
     /*
@@ -115,7 +120,7 @@ public class Game implements Parcelable{
     }
 
     public Game(Parcel in){
-        String[] data = new String[3];
+        String[] data = new String[9];
         in.readStringArray(data);
         this.name = data[0];
         this.verlorenPunktzahl = Integer.parseInt(data[1]);
@@ -126,7 +131,7 @@ public class Game implements Parcelable{
         this.player3.setName(data[6]);
         this.winner.setName(data[7]);
         this.loser.setName(data[8]);
-        //this.date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(data[9]);
+        //this.simpleDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(data[9]);
 
 
         //noch kein plan wie das laufen soll
@@ -215,10 +220,8 @@ public class Game implements Parcelable{
         return roundStats.size();
     }
 
-    public SimpleDateFormat getDate() {
-        SimpleDateFormat simpleDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        simpleDate.format(date);
-    return simpleDate;
+    public DateTimeFormatter getDate() {
+    return dtf;
     }
 
     public Player getWinner() {
