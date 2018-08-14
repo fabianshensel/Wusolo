@@ -68,13 +68,13 @@ public class GameActivity extends AppCompatActivity {
         }
 
         //Create InfoButton für Spielinformationen
-        Button ButtonGameInfo = findViewById(R.id.GameInfoButton);
+        final Button ButtonGameInfo = findViewById(R.id.GameInfoButton);
 
         ButtonGameInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(c, GameInfoActivity.class);
-                intent.putExtra("Game",game);
+                Intent intent = new Intent(GameActivity.this, GameInfoActivity.class);
+                intent.putExtra("game",game);
                 startActivity(intent);
             }
         });
@@ -228,6 +228,8 @@ public class GameActivity extends AppCompatActivity {
                                         if(game.getRoundStats().get(game.getRoundStats().size()-1).getBockRoundsleft() == 0) {
                                             isNewBoecke = true;
                                         }
+                                    } else {
+                                        isNewBoecke = true;
                                     }
                                     bock += BOCK_ROUND_COUNT;
                                     Log.d("Böcke","Böcke resettet");
@@ -353,7 +355,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-            insertStats(points0,points1,points2,points3,currStats.getBockRoundsleft(),i+1, isNewBock);
+            insertStats(points0,points1,points2,points3,currStats.getBockRoundsleft(),i, isNewBock);
             updateScore(points0,points1,points2,points3);
         }
     }

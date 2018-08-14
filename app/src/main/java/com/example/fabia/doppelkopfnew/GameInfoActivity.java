@@ -12,6 +12,7 @@ public class GameInfoActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.game_info);
         //Create Backbutton on Toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -19,12 +20,12 @@ public class GameInfoActivity extends AppCompatActivity {
         setTitle("Spiel Info");
 
         //get Game from Intent
-        game = (Game) getIntent().getParcelableExtra("Game");
+        game = (Game) getIntent().getParcelableExtra("game");
+        displayInfo();
 
-        super.onCreate(savedInstanceState);
     }
 
-    public void displayInfo(){
+    private void displayInfo(){
 
         TextView textViewMaxPoints = (TextView)findViewById(R.id.pointsOfWinner);
         TextView textViewMinPoints= (TextView)findViewById(R.id.pointsOfLoser);
@@ -36,20 +37,20 @@ public class GameInfoActivity extends AppCompatActivity {
 */
         TextView textViewWinner= (TextView)findViewById(R.id.nameOfWinner);
         TextView textViewLoser= (TextView)findViewById(R.id.nameOfLoser);
-        TextView textViewStartOfGame= (TextView)findViewById(R.id.nameOfPlace);
+        TextView textViewStartOfGame= (TextView)findViewById(R.id.StartOfGame);
 
-        textViewMaxPoints.setText(game.getGewinnPunktZahl());
-        textViewMinPoints.setText(game.getVerlorenPunktzahl());
+        textViewMaxPoints.setText(Integer.toString(game.getGewinnPunktZahl()));
+        textViewMinPoints.setText(Integer.toString(game.getVerlorenPunktzahl()));
 /*
         textViewPlayer0.setText(game.getPlayer0().getName());
         textViewPlayer1.setText(game.getPlayer1().getName());
         textViewPlayer2.setText(game.getPlayer2().getName());
         textViewPlayer3.setText(game.getPlayer3().getName());
 */
-        textViewWinner.setText(game.getWinner().getName());
-        textViewLoser.setText(game.getLoser().getName());
+        textViewWinner.setText(game.getWinnerName());
+        textViewLoser.setText(game.getLoserName());
 
-        textViewStartOfGame.setText(game.getDate().toString());
+        textViewStartOfGame.setText(game.getRightDate());
     }
 
 

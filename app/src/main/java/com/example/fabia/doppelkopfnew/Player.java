@@ -22,6 +22,13 @@ public class Player implements Parcelable {
         //needed for Firebase
     }
 
+    public Player(String name){
+        this.name = name;
+        this.comment = "";
+        this.imagepath = "";
+    }
+
+
     public Player(String name, String comment, String imagepath) {
         this.name = name;
         this.comment = comment;

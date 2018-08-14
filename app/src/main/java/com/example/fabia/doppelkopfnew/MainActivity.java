@@ -25,31 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
     private PlayerController playerController;
-/*
-    private LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-    private LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
 
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-
-        }
-    };
-
-*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
