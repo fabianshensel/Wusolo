@@ -97,6 +97,9 @@ public class GameController {
                 }else{
                     obj.put("player3","noName3");
                 }
+                obj.put("gamedate",g.getRightDate());
+                obj.put("gameplace",g.getAddress());
+                //Location muss noch in das json objekt geschrieben werden
 
                 for(int j = 0; j < gameList.get(i).getRoundStats().size(); j++){
                     JSONObject roundObj = new JSONObject();
@@ -163,6 +166,8 @@ public class GameController {
                 String p1 = obj.getString("player1");
                 String p2 = obj.getString("player2");
                 String p3 = obj.getString("player3");
+                String gameDate = obj.getString("gamedate");
+                String gamePlace = obj.getString("gameplace");
 
                 ArrayList<RoundStats> roundStats = new ArrayList<>();
                 for(int j = 0; ;j++){
@@ -190,7 +195,7 @@ public class GameController {
 
 
 
-                Game g = new Game(name,pControl.getPlayerbyName(p0),pControl.getPlayerbyName(p1),pControl.getPlayerbyName(p2),pControl.getPlayerbyName(p3),roundStats);
+                Game g = new Game(name,pControl.getPlayerbyName(p0),pControl.getPlayerbyName(p1),pControl.getPlayerbyName(p2),pControl.getPlayerbyName(p3),roundStats, gamePlace, gameDate);
                 gameList.add(g);
             }
         }

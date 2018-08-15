@@ -32,38 +32,29 @@ public class Game implements Parcelable{
     private String loserName;
     private String winnerName;
 
-    private String dtfString;
-
-    private String nowString;
+    private String address;
 
 
     private int gewinnPunktZahl;
     private int verlorenPunktzahl;
 
-    DateTimeFormatter dtf;
-
-    LocalDateTime now;
 
     String rightDate;
 
     private ArrayList<RoundStats> roundStats;
 
-    public Game(String name, Player player0, Player player1, Player player2, Player player3, ArrayList<RoundStats> roundStats) {
+    public Game(String name, Player player0, Player player1, Player player2, Player player3, ArrayList<RoundStats> roundStats,String address, String rightDate) {
         this.name = name;
         this.player0 = player0;
         this.player1 = player1;
         this.player2 = player2;
         this.player3 = player3;
         this.roundStats = roundStats;
-        generateDtf();
-
+        this.address = address;
+        this.rightDate = rightDate;
     }
 
-    private void generateDtf(){
-        now = LocalDateTime.now();
-        dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        rightDate = dtf.format(now);
-    }
+
 
     /*
     returns -1 if player not in game
@@ -176,6 +167,7 @@ public class Game implements Parcelable{
         this.winnerName = in.readString();
         this.loserName = in.readString();
         this.rightDate = in.readString();
+        this.address = in.readString();
 
 
         //noch kein plan wie das laufen soll
@@ -196,7 +188,6 @@ public class Game implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest,int flags){
-        generateDtf();
         generateWinnerAndLoser();
         generateStrings();
                 {
@@ -210,6 +201,7 @@ public class Game implements Parcelable{
                         dest.writeString(winnerName);
                         dest.writeString(loserName);
                         dest.writeString(rightDate);
+                        dest.writeString(address);
 
                 }
     }
@@ -241,10 +233,6 @@ public class Game implements Parcelable{
         return roundStats;
     }
 
-    public DateTimeFormatter getDate() {
-    return dtf;
-    }
-
     public Player getWinner() {
         return winner;
     }
@@ -269,26 +257,6 @@ public class Game implements Parcelable{
         this.loser = loser;
     }
 
-    public void setDtf(DateTimeFormatter dtf) {
-        this.dtf = dtf;
-    }
-
-    public String getPlayer0Name() {
-        return player0Name;
-    }
-
-    public String getPlayer1Name() {
-        return player1Name;
-    }
-
-    public String getPlayer2Name() {
-        return player2Name;
-    }
-
-    public String getPlayer3Name() {
-        return player3Name;
-    }
-
     public String getLoserName() {
         return loserName;
     }
@@ -300,6 +268,10 @@ public class Game implements Parcelable{
 
     public String getRightDate() {
         return rightDate;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }
 

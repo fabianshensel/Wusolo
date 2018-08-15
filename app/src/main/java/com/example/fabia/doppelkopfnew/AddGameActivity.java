@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AddGameActivity extends AppCompatActivity {
@@ -64,6 +66,7 @@ public class AddGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String gameName = gameNameEditText.getText().toString();
+                String address = "unbekannte Adresse";
 
                 if(gameName.isEmpty()){
                     Toast.makeText(AddGameActivity.this, "Bitte Spielnamen eintragen",Toast.LENGTH_LONG).show();
@@ -73,7 +76,12 @@ public class AddGameActivity extends AppCompatActivity {
                     Toast.makeText(AddGameActivity.this, "Spielname bereits in Verwendung",Toast.LENGTH_LONG).show();
                     return;
                 }
-
+                try {
+                    startActivity(new Intent(AddGameActivity.this, LocationControllerActivity.class));
+                    address = getIntent().getParcelableExtra("address");
+                } catch (Exception e){
+                    Toast.makeText(AddGameActivity.this, "Position konnte nicht ermittelt werden",Toast.LENGTH_LONG).show();
+                }
 
 
                 Spinner player1Spinner = findViewById(R.id.player1Spinner);
@@ -91,7 +99,7 @@ public class AddGameActivity extends AppCompatActivity {
                     return;
                 }
 
-                Game newGame = new Game(gameName,p1,p2,p3,p4,new ArrayList<RoundStats>());
+                Game newGame = new Game(gameName,p1,p2,p3,p4,new ArrayList<RoundStats>(), address, generateDate());
                 //gameController.readFromJSON(AddGameActivity.this);
                 gameController.getGameList().add(newGame);
                 gameController.writeToJSON(AddGameActivity.this);
@@ -101,6 +109,14 @@ public class AddGameActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private String generateDate(){
+        DateTimeFormatter dtf;
+        LocalDateTime now;
+        now = LocalDateTime.now();
+        dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return dtf.format(now);
     }
 
     @Override

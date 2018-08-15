@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class GameInfoActivity extends AppCompatActivity {
     private Game game;
+    private GameInfoController gameInfoController;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,6 +22,11 @@ public class GameInfoActivity extends AppCompatActivity {
 
         //get Game from Intent
         game = (Game) getIntent().getParcelableExtra("game");
+
+
+
+
+
         displayInfo();
 
     }
@@ -37,10 +43,13 @@ public class GameInfoActivity extends AppCompatActivity {
 */
         TextView textViewWinner= (TextView)findViewById(R.id.nameOfWinner);
         TextView textViewLoser= (TextView)findViewById(R.id.nameOfLoser);
-        TextView textViewStartOfGame= (TextView)findViewById(R.id.StartOfGame);
+
+        TextView textViewStartOfGame= (TextView)findViewById(R.id.StartOfGameDate);
+        TextView textViewGamePlace= (TextView)findViewById(R.id.nameOfPlace);
 
         textViewMaxPoints.setText(Integer.toString(game.getGewinnPunktZahl()));
         textViewMinPoints.setText(Integer.toString(game.getVerlorenPunktzahl()));
+        textViewGamePlace.setText(game.getAddress());
 /*
         textViewPlayer0.setText(game.getPlayer0().getName());
         textViewPlayer1.setText(game.getPlayer1().getName());

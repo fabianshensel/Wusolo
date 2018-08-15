@@ -1,6 +1,5 @@
 package com.example.fabia.doppelkopfnew;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class TopsAndFlops {
@@ -13,7 +12,7 @@ public class TopsAndFlops {
 
 
     public TopsAndFlops(ArrayList<Game> games){
-        ArrayList<GameStatic> gameStatics;
+        ArrayList<GameStats> gameStatics;
 
 
         for(Game game : games){
