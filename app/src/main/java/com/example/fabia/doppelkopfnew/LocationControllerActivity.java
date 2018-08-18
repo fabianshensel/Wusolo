@@ -24,11 +24,11 @@ import java.util.Locale;
 public class LocationControllerActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-        private static final int REQUEST_LOCATION = 1;
-        LocationManager locationManager;
+    private static final int REQUEST_LOCATION = 1;
+    LocationManager locationManager;
 
-        String latitude;
-        String longitude;
+    String latitude;
+    String longitude;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
